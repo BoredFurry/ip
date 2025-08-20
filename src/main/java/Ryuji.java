@@ -13,13 +13,20 @@ public class Ryuji {
         System.out.println("Hello! I'm Ryuji\nWhat can I do for you?");
         System.out.println(line);
         Scanner scanner = new Scanner(System.in);
+        ChatList chatList = new ChatList();
         while(true) {
             String command = scanner.nextLine();
+            System.out.println(line);
             if (command.equals("bye")) {
-                System.out.println(line + "\nThis fox will always be here for you\n" + line);
+                System.out.println("\nThis fox will always be here for you\n" + line);
                 break;
             }
-            System.out.println(line + "\n" + command + "\n" + line);
+            if (command.equals("list")) {
+                System.out.println(chatList.toString());
+            } else {
+                chatList.addToList(command);
+            }
+            System.out.println(line);
         }
     }
 }
