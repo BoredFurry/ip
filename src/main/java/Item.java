@@ -1,6 +1,15 @@
-class Item {
+import java.util.Map;
+
+abstract class Item {
     boolean status = false; // false == not done, true == done
     String label;
+    Map<String, String> validParams = Map.of(
+            "todo", "todo [task]",
+            "deadline", "deadline [task] /by [time]",
+            "event", "event [task] /from [start] /by [end]"
+            );
+
+    abstract boolean checkValid();
 
     Item(String label) {
         int firstSpace = label.split(" ")[0].length();

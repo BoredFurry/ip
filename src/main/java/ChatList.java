@@ -1,27 +1,50 @@
-
 import java.util.ArrayList;
 
 class ChatList {
     ArrayList<Item> inputs = new ArrayList<>();
 
     void addToList(Item item) {
-        this.inputs.add(item);
-        System.out.println("I've added '" + item + "' to your list master");
-        System.out.println("You now have " + this.inputs.size() + " items in your list");
+        if (item.checkValid()) {
+            this.inputs.add(item);
+            System.out.println("I've added '" + item + "' to your list master");
+            System.out.println("You now have " + this.inputs.size() + " items in your list");
+        } else {
+
+        }
     }
 
     void mark(Integer index) {
         index--;
-        this.inputs.get(index).mark();
-        System.out.println("I have marked this as completed master");
-        System.out.println("   " + this.inputs.get(index));
+        try {
+            this.inputs.get(index).mark();
+            System.out.println("I have marked this as completed master");
+            System.out.println("   " + this.inputs.get(index));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Please give a number between 1 and " + this.inputs.size() + " master");
+        } catch (ClassCastException e) {
+            System.out.println("Please provide a number master");
+        } catch (Exception e) {
+            System.out.println("I am not sure how master");
+        } finally {
+            System.out.println("Here's an example: \n    mark 2");
+        }
     }
 
     void unmark(Integer index) {
         index--;
-        this.inputs.get(index).unmark();
-        System.out.println("I have unmarked this from your list master");
-        System.out.println("   "  + this.inputs.get(index));
+        try {
+            this.inputs.get(index).unmark();
+            System.out.println("I have unmarked this from your list master");
+            System.out.println("   "  + this.inputs.get(index));
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Please give a number between 1 and " + this.inputs.size() + " master");
+        } catch (ClassCastException e) {
+            System.out.println("Please provide a number master");
+        } catch (Exception e) {
+            System.out.println("I am not sure how master");
+        } finally {
+            System.out.println("Here's an example: \n    unmark 2");
+        }
     }
 
     @Override

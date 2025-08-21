@@ -1,7 +1,12 @@
-public class ToDo extends Item{
+public class ToDo extends Item {
 
     ToDo(String label) {
         super(label);
+    }
+
+    @Override
+    boolean checkValid() {
+        return this.label.split(" ").length == 1;
     }
 
     @Override

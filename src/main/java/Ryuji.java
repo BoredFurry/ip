@@ -14,23 +14,32 @@ public class Ryuji {
         System.out.println(line);
         Scanner scanner = new Scanner(System.in);
         ChatList chatList = new ChatList();
+        RyujiException ryujiException = new RyujiException();
+        Functions functions = new Functions();
 
         while(true) {
+            // get input
             String command = scanner.nextLine().toLowerCase();
             System.out.println(line);
+
+            // goodbye
             if (command.equals("bye")) {
                 System.out.println("\nThis fox will always be here for you.\n" + line);
                 break;
             }
 
+            // list out chatlist
             if (command.equals("list")) {
                 System.out.println(chatList);
                 continue;
             }
 
-            String[] splitCommand = command.split(" ");
+            String[] splitCommand = command.split(" "); // split input
+            String function = splitCommand[0]; // get function
 
-            switch (splitCommand[0]) {
+            // run it through exception handler
+
+            switch (function) {
                 case "mark":
                     chatList.mark(Integer.parseInt(splitCommand[1]));
                     break;
@@ -50,8 +59,10 @@ public class Ryuji {
                     chatList.addToList(event);
                     break;
             }
+
+
+
             System.out.println(line);
         }
     }
 }
-
