@@ -10,16 +10,16 @@ public class Ryuji {
                 + "       |___/     |__/   \n";
         String line = "_______________________________________________________";
         System.out.println(line + "\n" + logo);
-        System.out.println("Hello! I'm Ryuji\nWhat can I do for you?");
+        System.out.println("Welcome to Ryuji chat bot. \n How may I be of serve today master?");
         System.out.println(line);
         Scanner scanner = new Scanner(System.in);
         ChatList chatList = new ChatList();
 
         while(true) {
-            String command = scanner.nextLine();
+            String command = scanner.nextLine().toLowerCase();
             System.out.println(line);
             if (command.equals("bye")) {
-                System.out.println("\nThis fox will always be here for you\n" + line);
+                System.out.println("\nThis fox will always be here for you.\n" + line);
                 break;
             }
 
@@ -28,18 +28,27 @@ public class Ryuji {
                 continue;
             }
 
-            if (command.contains("mark") || command.contains("unmark")) {
-                String[] splitCommand = command.split(" ");
-                if (splitCommand[0].equals("mark")) {
-                    chatList.mark(Integer.parseInt(splitCommand[1]));
-                } else {
-                    chatList.unmark(Integer.parseInt(splitCommand[1]));
-                }
-            }
+            String[] splitCommand = command.split(" ");
 
-            else {
-                Item item = new Item(command);
-                chatList.addToList(item);
+            switch (splitCommand[0]) {
+                case "mark":
+                    chatList.mark(Integer.parseInt(splitCommand[1]));
+                    break;
+                case "unmark":
+                    chatList.unmark(Integer.parseInt(splitCommand[1]));
+                    break;
+                case "todo":
+                    ToDo toDo = new ToDo(command);
+                    chatList.addToList(toDo);
+                    break;
+                case "deadline":
+                    Deadline deadline = new Deadline(command);
+                    chatList.addToList(deadline);
+                    break;
+                case "event":
+                    Event event = new Event(command);
+                    chatList.addToList(event);
+                    break;
             }
             System.out.println(line);
         }

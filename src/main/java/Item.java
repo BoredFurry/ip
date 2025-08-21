@@ -3,7 +3,9 @@ class Item {
     String label;
 
     Item(String label) {
-        this.label = label;
+        int firstSpace = label.split(" ")[0].length();
+        int firstDate = label.split("/")[0].length();
+        this.label = label.substring(firstSpace, firstDate);
     }
 
     String getStatusIcon() {
@@ -20,6 +22,6 @@ class Item {
 
     @Override
     public String toString() {
-        return this.label;
+        return  "[" + this.getStatusIcon() + "] " + this.label;
     }
 }
