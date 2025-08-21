@@ -14,6 +14,7 @@ public class Ryuji {
         System.out.println(line);
         Scanner scanner = new Scanner(System.in);
         ChatList chatList = new ChatList();
+
         while(true) {
             String command = scanner.nextLine();
             System.out.println(line);
@@ -21,12 +22,27 @@ public class Ryuji {
                 System.out.println("\nThis fox will always be here for you\n" + line);
                 break;
             }
+
             if (command.equals("list")) {
-                System.out.println(chatList.toString());
-            } else {
-                chatList.addToList(command);
+                System.out.println(chatList);
+                continue;
+            }
+
+            if (command.contains("mark") || command.contains("unmark")) {
+                String[] splitCommand = command.split(" ");
+                if (splitCommand[0].equals("mark")) {
+                    chatList.mark(Integer.parseInt(splitCommand[1]));
+                } else {
+                    chatList.unmark(Integer.parseInt(splitCommand[1]));
+                }
+            }
+
+            else {
+                Item item = new Item(command);
+                chatList.addToList(item);
             }
             System.out.println(line);
         }
     }
 }
+
