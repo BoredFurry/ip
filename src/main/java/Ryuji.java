@@ -58,10 +58,10 @@ public class Ryuji {
                     Event event = new Event(command);
                     chatList.addToList(event);
                     break;
+                case "delete":
+                    chatList.deleteFromList(splitCommand[1]);
+                    break;
             }
-
-
-
             System.out.println(line);
         }
     }

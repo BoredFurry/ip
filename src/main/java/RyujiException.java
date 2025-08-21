@@ -1,6 +1,3 @@
-import java.util.Map;
-import java.util.function.Function;
-
 public class RyujiException { ;
     Functions functions = new Functions();
 
@@ -34,7 +31,7 @@ public class RyujiException { ;
             return "I don't know what you expect of me master";
         }
         if (invalidParams && !invalidFn) {
-            return "You have given me the wrong parameters";
+            return "You have given me the wrong format master";
         }
         return "";
     }

@@ -6,10 +6,25 @@ class ChatList {
     void addToList(Item item) {
         if (item.checkValid()) {
             this.inputs.add(item);
-            System.out.println("I've added '" + item + "' to your list master");
+            System.out.println("I've added \n" + item + "\n to your list master");
             System.out.println("You now have " + this.inputs.size() + " items in your list");
         } else {
+            System.out.println("Something went wrong master");
+        }
+    }
 
+    void deleteFromList(String input) {
+        try {
+            int index = Integer.parseInt(input);
+            index--;
+            Item removed = this.inputs.get(index);
+            this.inputs.remove(index);
+            System.out.println("I've removed \n" + removed + "\n to your list master");
+            System.out.println("You now have " + this.inputs.size() + " items in your list");
+        } catch (ClassCastException e) {
+            System.out.println("Please provide me with a number master");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Please provide me a number smaller than " + this.inputs.size());
         }
     }
 
