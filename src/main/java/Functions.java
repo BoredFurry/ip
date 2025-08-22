@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 public class Functions {
-    String[] functions = {"mark", "unmark", "todo", "deadline", "event"};
+    String[] functions = {"mark", "unmark", "todo", "deadline", "event", "delete"};
 
     boolean checkFunctionExists(String function) {
         for (String func: functions) {
