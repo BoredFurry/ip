@@ -1,47 +1,60 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
- * Represents a task with a deadline.
+ * Represents a task with a deadline. Supports flexible date/time input.
  */
-class Deadline extends Item {
-    private final String endDate;
+public class Deadline extends Item {
+
+    private final LocalDateTime parsedDateTime; // null if not a standard date
+    private final String rawDateTime; // fallback if parsing fails
+    private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd[ HHmm]");
+    private static final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
     /**
-     * Constructs a Deadline task.
+     * Constructs a Deadline task from a command string.
      *
-     * @param label   the task label.
-     * @param endDate the deadline of the task.
+     * @param label raw input string, e.g., "deadline return book /by 2019-12-02 1800"
      */
-    Deadline(String label, String endDate) {
+    public Deadline(String label) {
         super(label);
-        this.endDate = endDate;
+        String[] parts = label.split("/by");
+        if (parts.length < 2) {
+            this.parsedDateTime = null;
+            this.rawDateTime = "";
+        } else {
+            String dateStr = parts[1].trim();
+            LocalDateTime dt;
+            try {
+                dt = LocalDateTime.parse(dateStr, inputFormatter);
+            } catch (DateTimeParseException e) {
+                dt = null;
+            }
+            this.parsedDateTime = dt;
+            this.rawDateTime = (dt == null) ? dateStr : null;
+        }
     }
 
-    /**
-     * Checks if the deadline task is valid (must contain "/by").
-     *
-     * @return true if valid, false otherwise.
-     */
     @Override
     boolean checkValid() {
-        return label.contains("/by");
+        return this.parsedDateTime != null || (this.rawDateTime != null && !this.rawDateTime.isEmpty());
     }
 
-    /**
-     * Converts this Deadline task to a CSV row.
-     *
-     * @return a String array representing the task.
-     */
-    @Override
-    String[] toCSVRow() {
-        return new String[]{"DEADLINE", getStatusIcon(), label, endDate};
-    }
-
-    /**
-     * Returns a string representation of the Deadline task.
-     *
-     * @return formatted string.
-     */
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + endDate + ")";
+        if (parsedDateTime != null) {
+            return "[D]" + super.toString() + " (by: " + parsedDateTime.format(outputFormatter) + ")";
+        } else {
+            return "[D]" + super.toString() + " (by: " + rawDateTime + ")";
+        }
+    }
+
+    public LocalDateTime getParsedDateTime() {
+        return parsedDateTime;
+    }
+
+    public String getRawDateTime() {
+        return rawDateTime;
     }
 }

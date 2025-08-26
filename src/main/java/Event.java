@@ -1,47 +1,89 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
- * Represents a task with a specific event time or range.
+ * Represents an event with start and end dates.
+ * Supports flexible date/time input.
  */
-class Event extends Item {
-    private final String time;
+public class Event extends Item {
+
+    private final LocalDateTime startParsed;
+    private final LocalDateTime endParsed;
+    private final String startRaw;
+    private final String endRaw;
+
+    private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd[ HHmm]");
+    private static final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
     /**
-     * Constructs an Event task.
+     * Constructs an Event from a command string.
      *
-     * @param label the task label.
-     * @param time  the time or range of the event.
+     * @param label raw input string, e.g.,
+     *              "event party /from 2019-12-02 1800 /to 2019-12-02 2000"
      */
-    Event(String label, String time) {
+    public Event(String label) {
         super(label);
-        this.time = time;
+
+        String[] fromSplit = label.split("/from");
+        String[] toSplit = label.split("/to");
+
+        if (fromSplit.length < 2 || toSplit.length < 2) {
+            startParsed = null;
+            endParsed = null;
+            startRaw = "";
+            endRaw = "";
+        } else {
+            String startStr = fromSplit[1].split("/to")[0].trim();
+            String endStr = toSplit[1].trim();
+            LocalDateTime startDt;
+            LocalDateTime endDt;
+
+            try {
+                startDt = LocalDateTime.parse(startStr, inputFormatter);
+            } catch (DateTimeParseException e) {
+                startDt = null;
+            }
+
+            try {
+                endDt = LocalDateTime.parse(endStr, inputFormatter);
+            } catch (DateTimeParseException e) {
+                endDt = null;
+            }
+
+            startParsed = startDt;
+            endParsed = endDt;
+            startRaw = (startDt == null) ? startStr : null;
+            endRaw = (endDt == null) ? endStr : null;
+        }
     }
 
-    /**
-     * Checks if the event task is valid (must contain "/from" and "/to").
-     *
-     * @return true if valid, false otherwise.
-     */
     @Override
     boolean checkValid() {
-        return label.contains("/from") && label.contains("/to");
+        return (startParsed != null || (startRaw != null && !startRaw.isEmpty()))
+                && (endParsed != null || (endRaw != null && !endRaw.isEmpty()));
     }
 
-    /**
-     * Converts this Event task to a CSV row.
-     *
-     * @return a String array representing the task.
-     */
-    @Override
-    String[] toCSVRow() {
-        return new String[]{"EVENT", getStatusIcon(), label, time};
-    }
-
-    /**
-     * Returns a string representation of the Event task.
-     *
-     * @return formatted string.
-     */
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (at: " + time + ")";
+        String startStr = (startParsed != null) ? startParsed.format(outputFormatter) : startRaw;
+        String endStr = (endParsed != null) ? endParsed.format(outputFormatter) : endRaw;
+        return "[E]" + super.toString() + " (from: " + startStr + " to: " + endStr + ")";
+    }
+
+    public LocalDateTime getStartParsed() {
+        return startParsed;
+    }
+
+    public LocalDateTime getEndParsed() {
+        return endParsed;
+    }
+
+    public String getStartRaw() {
+        return startRaw;
+    }
+
+    public String getEndRaw() {
+        return endRaw;
     }
 }

@@ -32,19 +32,19 @@ abstract class Item {
     }
 
     /**
+     * Returns the status icon.
+     *
+     * @return "X" if completed, " " if not
+     */
+    public String getStatusIcon() {
+        return this.status ? "X" : " ";
+    }
+
+    /**
      * Marks the item as not completed.
      */
     void unmark() {
         status = false;
-    }
-
-    /**
-     * Returns a one-character string representing status.
-     *
-     * @return "X" if completed, otherwise a blank space.
-     */
-    String getStatusIcon() {
-        return status ? "X" : " ";
     }
 
     /**
