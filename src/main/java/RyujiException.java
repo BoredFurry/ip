@@ -1,18 +1,11 @@
-public class RyujiException { ;
-    Functions functions = new Functions();
-
+public class RyujiException {
+    private final Functions functions = new Functions();
 
     // {1,"func"} = valid, {1, ""} = bad func, {0, "func"} = bad param, {0, ""} = invalid Input
-    String[] parseInput(String input) { // {check > 1 space, check if valid function}
-        String checkSpace = "0";
-        String checkValid = "";
-        String[] splitCommand = input.split(" ");
-        if (splitCommand.length > 2) { // checks if there is a " " to denote params
-            checkSpace = "1";
-        }
-        if (functions.checkFunctionExists(splitCommand[0])) { // check if valid function
-            checkValid = splitCommand[1];
-        }
+    String[] parseInput(String input) {
+        String[] splitCommand = input.trim().split(" ", 2);
+        String checkSpace = splitCommand.length > 1 ? "1" : "0";
+        String checkValid = functions.checkFunctionExists(splitCommand[0]) ? splitCommand[0] : "";
         return new String[]{checkSpace, checkValid};
     }
 
@@ -25,8 +18,9 @@ public class RyujiException { ;
     }
 
     String checkInput(String input) {
-        boolean invalidParams = this.checkLength(this.parseInput(input));
-        boolean invalidFn = this.checkFunction(this.parseInput(input));
+        String[] parsed = this.parseInput(input);
+        boolean invalidParams = this.checkLength(parsed);
+        boolean invalidFn = this.checkFunction(parsed);
         if (invalidParams && invalidFn) {
             return "I don't know what you expect of me master";
         }

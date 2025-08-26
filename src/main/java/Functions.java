@@ -1,19 +1,15 @@
-import java.util.HashMap;
+import java.util.Set;
 
 public class Functions {
-    String[] functions = {"mark", "unmark", "todo", "deadline", "event", "delete"};
+    private final Set<String> functions = Set.of("mark", "unmark", "todo", "deadline", "event", "delete");
 
-    boolean checkFunctionExists(String function) {
-        for (String func: functions) {
-            if (func.equals(function)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean checkFunctionExists(String function) {
+        return functions.contains(function);
     }
 
     @Override
     public String toString() {
-        return this.functions.toString();
+        return functions.toString();
     }
 }
+
