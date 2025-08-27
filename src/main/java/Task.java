@@ -1,10 +1,8 @@
-import java.util.Arrays;
-
 /**
  * Abstract base class representing a generic task item.
  * Provides status tracking, label handling, and CSV conversion.
  */
-abstract class Item {
+abstract class Task {
     protected boolean status = false;
     protected String label;
 
@@ -13,8 +11,13 @@ abstract class Item {
      *
      * @param label the task label.
      */
-    Item(String label) {
+    Task(String label) {
         this.label = label;
+    }
+
+    Task(String label, boolean status) {
+        this.label = label;
+        this.status = false;
     }
 
     /**
@@ -52,7 +55,8 @@ abstract class Item {
      *
      * @return a String array representing the item.
      */
-    abstract String[] toCSVRow();
+    abstract String toCSVRow();
+
 
     /**
      * Returns a string representation of the item, including status and label.
@@ -70,16 +74,16 @@ abstract class Item {
      * @param row the CSV row representing the item.
      * @return an Item object, or null if invalid.
      */
-    static Item fromCSVRow(String[] row) {
+    static Task fromCSVRow(String[] row) {
         if (row.length < 3) return null;
         String type = row[0];
         boolean done = row[1].equals("X");
         String label = row[2];
 
-        Item item = switch (type) {
+        Task item = switch (type) {
             case "TODO" -> new ToDo(label);
-            case "DEADLINE" -> new Deadline(label, row.length > 3 ? row[3] : "");
-            case "EVENT" -> new Event(label, row.length > 3 ? row[3] : "");
+            case "DEADLINE" -> new Deadline(label);
+            case "EVENT" -> new Event(label);
             default -> null;
         };
         if (item != null && done) item.mark();

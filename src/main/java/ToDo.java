@@ -1,7 +1,7 @@
 /**
  * Represents a simple to-do task without any dates.
  */
-class ToDo extends Item {
+class ToDo extends Task {
 
     /**
      * Constructs a ToDo task.
@@ -19,7 +19,7 @@ class ToDo extends Item {
      */
     @Override
     boolean checkValid() {
-        return label.split(" ").length > 1;
+        return this.label.split(" ").length > 1;
     }
 
     /**
@@ -28,8 +28,8 @@ class ToDo extends Item {
      * @return a String array representing the task.
      */
     @Override
-    String[] toCSVRow() {
-        return new String[]{"TODO", getStatusIcon(), label};
+    public String toCSVRow() {
+        return "TODO," + getStatusIcon() + "," + this.label;
     }
 
     /**
