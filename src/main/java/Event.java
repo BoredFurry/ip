@@ -6,13 +6,11 @@ import java.time.format.DateTimeParseException;
  * Represents an event with start and end dates.
  * Supports flexible date/time input.
  */
-public class Event extends Item {
-
+public class Event extends Task {
     private final LocalDateTime startParsed;
     private final LocalDateTime endParsed;
     private final String startRaw;
     private final String endRaw;
-
     private static final DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd[ HHmm]");
     private static final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
@@ -69,6 +67,11 @@ public class Event extends Item {
         String startStr = (startParsed != null) ? startParsed.format(outputFormatter) : startRaw;
         String endStr = (endParsed != null) ? endParsed.format(outputFormatter) : endRaw;
         return "[E]" + super.toString() + " (from: " + startStr + " to: " + endStr + ")";
+    }
+
+    @Override
+    String toCSVRow() {
+        return "TODO" + getStatusIcon() + this.label + this.startParsed + this.endParsed;
     }
 
     public LocalDateTime getStartParsed() {

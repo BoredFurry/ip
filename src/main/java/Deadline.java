@@ -5,7 +5,7 @@ import java.time.format.DateTimeParseException;
 /**
  * Represents a task with a deadline. Supports flexible date/time input.
  */
-public class Deadline extends Item {
+public class Deadline extends Task {
 
     private final LocalDateTime parsedDateTime; // null if not a standard date
     private final String rawDateTime; // fallback if parsing fails
@@ -39,6 +39,11 @@ public class Deadline extends Item {
     @Override
     boolean checkValid() {
         return this.parsedDateTime != null || (this.rawDateTime != null && !this.rawDateTime.isEmpty());
+    }
+
+    @Override
+    String toCSVRow() {
+        return "TODO" + getStatusIcon() + this.label + this.parsedDateTime;
     }
 
     @Override

@@ -2,20 +2,23 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Maintains the list of tasks and allows operations such as add, delete,
- * mark/unmark, and listing tasks by chronological order.
- */
-public class ChatList {
+public class TaskList {
+    private List<Task> tasks;
 
-    private final List<Item> tasks = new ArrayList<>();
+    public TaskList() {
+        this.tasks = new ArrayList<>();
+    }
+
+    public TaskList(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     /**
      * Adds a task to the list.
      *
      * @param item the task to add
      */
-    public void addToList(Item item) {
+    public void addToList(Task item) {
         if (item.checkValid()) {
             tasks.add(item);
             System.out.println("Added: " + item);
@@ -34,7 +37,7 @@ public class ChatList {
             System.out.println("Index out of bounds.");
             return;
         }
-        Item removed = tasks.remove(index - 1);
+        Task removed = tasks.remove(index - 1);
         System.out.println("Removed: " + removed);
     }
 
@@ -104,3 +107,4 @@ public class ChatList {
                 .forEach(System.out::println);
     }
 }
+
