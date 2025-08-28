@@ -1,3 +1,9 @@
+package ryuji.command;
+
+import ryuji.storage.Storage;
+import ryuji.task.TaskList;
+import ryuji.ui.Ui;
+
 public class UnmarkCommand extends Command {
     private final int position;
 

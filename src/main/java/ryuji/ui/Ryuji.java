@@ -1,5 +1,11 @@
+package ryuji.ui;
+
+import ryuji.command.Command;
+import ryuji.storage.Storage;
+import ryuji.task.TaskList;
+
 /**
- * Main class for the Ryuji chatbot.
+ * Main class for the Ryuji.Ryuji chatbot.
  * Initializes the chat list and UI, then starts interaction with the user.
  */
 public class Ryuji {

@@ -1,3 +1,5 @@
+package ryuji.ui;
+
 public class RyujiException extends Exception {
     RyujiException(String message) {
         super(message);

@@ -1,13 +1,12 @@
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
+package ryuji.ui;
+
+import ryuji.task.TaskList;
+
 import java.util.Scanner;
 
 /**
  * Handles interactions between the user and the chatbot.
- * Delegates task management to ChatList and persistence to DataHandler.
+ * Delegates task management to ChatList and persistence to Ryuji.Ryuji.DataHandler.
  */
 public class Ui {
     private final String LOGO = " ____               _ _ \n"
@@ -17,7 +16,7 @@ public class Ui {
             + "|_| \\_\\\\__, |\\__,_|/ |_|\n"
             + "       |___/     |__/   \n";
     private final String LINE = "_______________________________________________________";
-    private final String GREETING = "Hello! I'm Ryuji\nWhat can I do for you?";
+    private final String GREETING = "Hello! I'm Ryuji.Ryuji\nWhat can I do for you?";
     private final String FAREWELL = "Bye. Hope to see you again soon!\n";
     private Scanner scanner = new Scanner(System.in);
 

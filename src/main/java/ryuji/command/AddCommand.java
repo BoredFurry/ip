@@ -1,3 +1,10 @@
+package ryuji.command;
+
+import ryuji.storage.Storage;
+import ryuji.task.Task;
+import ryuji.task.TaskList;
+import ryuji.ui.Ui;
+
 public class AddCommand extends Command {
     private final Task task;
 

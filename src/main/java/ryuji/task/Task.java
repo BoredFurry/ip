@@ -1,8 +1,12 @@
+package ryuji.task;
+
+import ryuji.ToDo;
+
 /**
  * Abstract base class representing a generic task item.
  * Provides status tracking, label handling, and CSV conversion.
  */
-abstract class Task {
+public abstract class Task {
     protected boolean status = false;
     protected String label;
 
@@ -55,7 +59,7 @@ abstract class Task {
      *
      * @return a String array representing the item.
      */
-    abstract String toCSVRow();
+    public abstract String toCSVRow();
 
 
     /**
@@ -74,7 +78,7 @@ abstract class Task {
      * @param row the CSV row representing the item.
      * @return an Item object, or null if invalid.
      */
-    static Task fromCSVRow(String[] row) {
+    public static Task fromCSVRow(String[] row) {
         if (row.length < 3) return null;
         String type = row[0];
         boolean done = row[1].equals("X");

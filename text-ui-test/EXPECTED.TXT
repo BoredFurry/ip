@@ -5,7 +5,7 @@ _______________________________________________________
 |  _ <| |_| | |_| || | |
 |_| \_\\__, |\__,_|/ |_|
        |___/     |__/   
-Welcome to Ryuji chat bot.
+Welcome to ryuji.ryuji chat bot.
 How may I be of service today master?
 _______________________________________________________
 I've added

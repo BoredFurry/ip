@@ -1,10 +1,12 @@
+package ryuji.task;
+
 /**
  * Represents a simple to-do task without any dates.
  */
 class ToDo extends Task {
 
     /**
-     * Constructs a ToDo task.
+     * Constructs a Ryuji.ToDo task.
      *
      * @param label the task label.
      */
@@ -23,7 +25,7 @@ class ToDo extends Task {
     }
 
     /**
-     * Converts this ToDo task to a CSV row.
+     * Converts this Ryuji.ToDo task to a CSV row.
      *
      * @return a String array representing the task.
      */
@@ -33,7 +35,7 @@ class ToDo extends Task {
     }
 
     /**
-     * Returns a string representation of the ToDo task.
+     * Returns a string representation of the Ryuji.ToDo task.
      *
      * @return formatted string.
      */

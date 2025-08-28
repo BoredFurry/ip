@@ -1,3 +1,5 @@
+package ryuji.task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -13,7 +15,7 @@ public class Deadline extends Task {
     private static final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
     /**
-     * Constructs a Deadline task from a command string.
+     * Constructs a Ryuji.Ryuji.Deadline task from a command string.
      *
      * @param label raw input string, e.g., "deadline return book /by 2019-12-02 1800"
      */
@@ -42,7 +44,7 @@ public class Deadline extends Task {
     }
 
     @Override
-    String toCSVRow() {
+    public String toCSVRow() {
         return "TODO" + getStatusIcon() + this.label + this.parsedDateTime;
     }
 

@@ -1,3 +1,7 @@
+package ryuji.task;
+
+import ryuji.Task;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -15,7 +19,7 @@ public class Event extends Task {
     private static final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
     /**
-     * Constructs an Event from a command string.
+     * Constructs an Ryuji.Ryuji.Event from a command string.
      *
      * @param label raw input string, e.g.,
      *              "event party /from 2019-12-02 1800 /to 2019-12-02 2000"
