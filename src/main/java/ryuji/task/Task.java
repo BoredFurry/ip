@@ -1,13 +1,11 @@
 package ryuji.task;
 
-import ryuji.ToDo;
-
 /**
  * Abstract base class representing a generic task item.
  * Provides status tracking, label handling, and CSV conversion.
  */
 public abstract class Task {
-    protected boolean status = false;
+    protected boolean isMarked = false;
     protected String label;
 
     /**
@@ -21,7 +19,7 @@ public abstract class Task {
 
     Task(String label, boolean status) {
         this.label = label;
-        this.status = false;
+        this.isMarked = false;
     }
 
     /**
@@ -35,7 +33,7 @@ public abstract class Task {
      * Marks the item as completed.
      */
     void mark() {
-        status = true;
+        isMarked = true;
     }
 
     /**
@@ -44,14 +42,14 @@ public abstract class Task {
      * @return "X" if completed, " " if not
      */
     public String getStatusIcon() {
-        return this.status ? "X" : " ";
+        return isMarked ? "X" : " ";
     }
 
     /**
      * Marks the item as not completed.
      */
     void unmark() {
-        status = false;
+        isMarked = false;
     }
 
     /**
@@ -59,8 +57,34 @@ public abstract class Task {
      *
      * @return a String array representing the item.
      */
-    public abstract String toCSVRow();
+    public abstract String toCsvRow();
 
+    /**
+     * Reconstructs a Task object from a CSV row.
+     *
+     * @param row the CSV row representing the item.
+     * @return an Item object, or null if invalid.
+     */
+    public static Task fromCsvRow(String[] row) {
+        Task task;
+        String taskType = row[0];
+        boolean isMarked = (row[1].equals("X"));
+        String label = row[2];
+        switch (taskType) {
+        case "todo":
+            task = new ToDo(label, isMarked);
+            break;
+        case "deadline":
+            task = new Deadline(label, isMarked);
+            break;
+        case "event":
+            task = new Event(label, isMarked);
+            break;
+        default:
+            task = null;
+        }
+        return task;
+    }
 
     /**
      * Returns a string representation of the item, including status and label.
@@ -72,25 +96,4 @@ public abstract class Task {
         return "[" + getStatusIcon() + "] " + label;
     }
 
-    /**
-     * Reconstructs an Item object from a CSV row.
-     *
-     * @param row the CSV row representing the item.
-     * @return an Item object, or null if invalid.
-     */
-    public static Task fromCSVRow(String[] row) {
-        if (row.length < 3) return null;
-        String type = row[0];
-        boolean done = row[1].equals("X");
-        String label = row[2];
-
-        Task item = switch (type) {
-            case "TODO" -> new ToDo(label);
-            case "DEADLINE" -> new Deadline(label);
-            case "EVENT" -> new Event(label);
-            default -> null;
-        };
-        if (item != null && done) item.mark();
-        return item;
-    }
 }

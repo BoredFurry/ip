@@ -61,7 +61,7 @@ public class Storage {
                 lineNum++;
                 try {
                     String[] values = line.split(",");
-                    Task task = Task.fromCSVRow(values);
+                    Task task = Task.fromCsvRow(values);
                     rows.add(task);
                 } catch (Exception e) {
                     System.err.println("Warning: Error parsing line " + lineNum + ": " + line);
@@ -82,7 +82,7 @@ public class Storage {
      */
     public void writeToFile(Task task) {
         File file = new File(getDesktopPath(), this.filePath);
-        String data = task.toCSVRow();
+        String data = task.toCsvRow();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             bw.write(data);
             bw.newLine();

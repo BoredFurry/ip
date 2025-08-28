@@ -1,7 +1,5 @@
 package ryuji.task;
 
-import ryuji.Task;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -19,7 +17,7 @@ public class Event extends Task {
     private static final DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
     /**
-     * Constructs an Ryuji.Ryuji.Event from a command string.
+     * Constructs a Ryuji.Ryuji.Event from a command string.
      *
      * @param label raw input string, e.g.,
      *              "event party /from 2019-12-02 1800 /to 2019-12-02 2000"
@@ -60,6 +58,43 @@ public class Event extends Task {
         }
     }
 
+    public Event(String label, boolean isMarked) {
+        super(label, isMarked);
+
+        String[] fromSplit = label.split("/from");
+        String[] toSplit = label.split("/to");
+
+        if (fromSplit.length < 2 || toSplit.length < 2) {
+            startParsed = null;
+            endParsed = null;
+            startRaw = "";
+            endRaw = "";
+        } else {
+            String startStr = fromSplit[1].split("/to")[0].trim();
+            String endStr = toSplit[1].trim();
+            LocalDateTime startDt;
+            LocalDateTime endDt;
+
+            try {
+                startDt = LocalDateTime.parse(startStr, inputFormatter);
+            } catch (DateTimeParseException e) {
+                startDt = null;
+            }
+
+            try {
+                endDt = LocalDateTime.parse(endStr, inputFormatter);
+            } catch (DateTimeParseException e) {
+                endDt = null;
+            }
+
+            startParsed = startDt;
+            endParsed = endDt;
+            startRaw = (startDt == null) ? startStr : null;
+            endRaw = (endDt == null) ? endStr : null;
+        }
+    }
+
+
     @Override
     boolean checkValid() {
         return (startParsed != null || (startRaw != null && !startRaw.isEmpty()))
@@ -74,7 +109,7 @@ public class Event extends Task {
     }
 
     @Override
-    String toCSVRow() {
+    public String toCsvRow() {
         return "TODO" + getStatusIcon() + this.label + this.startParsed + this.endParsed;
     }
 

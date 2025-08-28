@@ -3,16 +3,21 @@ package ryuji.task;
 /**
  * Represents a simple to-do task without any dates.
  */
-class ToDo extends Task {
+public class ToDo extends Task {
 
     /**
      * Constructs a Ryuji.ToDo task.
      *
      * @param label the task label.
      */
-    ToDo(String label) {
+    public ToDo(String label) {
         super(label);
     }
+
+    public ToDo(String label, boolean isMarked) {
+        super(label, isMarked);
+    }
+
 
     /**
      * Checks if the task is valid (must contain at least one space).
@@ -30,7 +35,7 @@ class ToDo extends Task {
      * @return a String array representing the task.
      */
     @Override
-    public String toCSVRow() {
+    public String toCsvRow() {
         return "TODO," + getStatusIcon() + "," + this.label;
     }
 

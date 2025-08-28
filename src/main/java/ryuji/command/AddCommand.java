@@ -8,7 +8,7 @@ import ryuji.ui.Ui;
 public class AddCommand extends Command {
     private final Task task;
 
-    AddCommand(String command, Task task) {
+    public AddCommand(String command, Task task) {
         super(command);
         this.task = task;
     }

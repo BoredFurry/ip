@@ -7,7 +7,7 @@ import ryuji.ui.Ui;
 public class UnmarkCommand extends Command {
     private final int position;
 
-    UnmarkCommand(String command, int position) {
+    public UnmarkCommand(String command, int position) {
         super(command);
         this.position = position;
     }

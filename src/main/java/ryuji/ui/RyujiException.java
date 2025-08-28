@@ -14,10 +14,10 @@ public class RyujiException extends Exception {
     }
 
     public void showFileNotFound() {
-
+        System.out.println(this.getMessage());
     }
 
     public void showInvalid() {
-
+        System.out.println(this.getMessage());
     }
 }

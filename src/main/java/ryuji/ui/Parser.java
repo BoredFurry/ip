@@ -3,6 +3,7 @@ package ryuji.ui;
 import ryuji.command.*;
 import ryuji.task.Deadline;
 import ryuji.task.Event;
+import ryuji.task.ToDo;
 
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import java.util.Set;
  */
 public class Parser{
     private final Set<String> commands = Set.of("list", "bye", "mark", "unmark", "todo", "deadline", "event", "delete");
+
     public Command parse(String input) {
         Command command;
         String commandString = this.parseCommand(input);
@@ -38,7 +40,7 @@ public class Parser{
             command = new AddCommand(commandString, new Deadline(this.parseTask(input)));
             break;
         case "event":
-            command = new AddCommand(commandString,new Event(this.parseTask(input)));
+            command = new AddCommand(commandString, new Event(this.parseTask(input)));
             break;
             default:
                 throw new IllegalStateException("Unexpected value: " + commandString);

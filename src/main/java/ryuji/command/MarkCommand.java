@@ -7,7 +7,7 @@ import ryuji.ui.Ui;
 public class MarkCommand extends Command {
     private final int position;
 
-    MarkCommand(String command, int position) {
+    public MarkCommand(String command, int position) {
         super(command);
         this.position = position;
     }

@@ -7,7 +7,7 @@ import ryuji.ui.Ui;
 public class DeleteCommand extends Command {
     private final int position;
 
-    DeleteCommand(String command, int position) {
+    public DeleteCommand(String command, int position) {
         super(command);
         this.position = position;
     }

@@ -38,13 +38,33 @@ public class Deadline extends Task {
         }
     }
 
+    public Deadline(String label, boolean isMarked) {
+        super(label, isMarked);
+        String[] parts = label.split("/by");
+        if (parts.length < 2) {
+            this.parsedDateTime = null;
+            this.rawDateTime = "";
+        } else {
+            String dateStr = parts[1].trim();
+            LocalDateTime dt;
+            try {
+                dt = LocalDateTime.parse(dateStr, inputFormatter);
+            } catch (DateTimeParseException e) {
+                dt = null;
+            }
+            this.parsedDateTime = dt;
+            this.rawDateTime = (dt == null) ? dateStr : null;
+        }
+    }
+
+
     @Override
     boolean checkValid() {
         return this.parsedDateTime != null || (this.rawDateTime != null && !this.rawDateTime.isEmpty());
     }
 
     @Override
-    public String toCSVRow() {
+    public String toCsvRow() {
         return "TODO" + getStatusIcon() + this.label + this.parsedDateTime;
     }
 
