@@ -21,10 +21,6 @@ abstract public class Command {
         return this.getCommand().equals("bye");
     }
 
-    private String throwCommandNotFound() {
-        return new RyujiException("This command is not found").getMessage();
-    }
-
     public abstract void execute(TaskList tasks, Ui ui, Storage storage);
 
     @Override
