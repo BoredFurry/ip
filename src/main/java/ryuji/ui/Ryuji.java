@@ -32,7 +32,7 @@ public class Ryuji {
             try {
                 String fullCommand = ui.readCommand();
                 ui.showLine(); // show the divider line ("_______")
-                Command c = this.parser.parse(fullCommand);
+                Command c = parser.parse(fullCommand);
                 c.execute(tasks, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
