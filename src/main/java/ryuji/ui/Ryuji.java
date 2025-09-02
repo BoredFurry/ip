@@ -5,15 +5,23 @@ import ryuji.storage.Storage;
 import ryuji.task.TaskList;
 
 /**
- * Main class for the Ryuji.Ryuji chatbot.
- * Initializes the chat list and UI, then starts interaction with the user.
+ * The {@code Ryuji} class serves as the main entry point for the Ryuji chatbot application.
+ * It is responsible for initializing the user interface, task list, storage, and parser.
+ * The chatbot reads user input in a loop, parses commands, and executes them accordingly.
  */
 public class Ryuji {
-    private Parser parser;
+    private Parser parser = new Parser();
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a {@code Ryuji} instance with the specified file path for storage.
+     * It attempts to load existing tasks from the given file. If loading fails,
+     * it initializes an empty task list and notifies the user.
+     *
+     * @param filePath the file path to the storage file where tasks are saved
+     */
     public Ryuji(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
@@ -25,6 +33,12 @@ public class Ryuji {
         }
     }
 
+    /**
+     * Starts the chatbot application.
+     * Displays a welcome message, then enters a loop to continuously read, parse,
+     * and execute user commands until the exit command is received.
+     * Shows error messages and a farewell message as appropriate.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -44,6 +58,11 @@ public class Ryuji {
         }
     }
 
+    /**
+     * Main method that launches the Ryuji chatbot application.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         new Ryuji("data/tasks.csv").run();
     }
