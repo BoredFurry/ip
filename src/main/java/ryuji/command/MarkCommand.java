@@ -34,7 +34,7 @@ public class MarkCommand extends Command {
      */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        tasks.mark(this.position);
+        tasks.mark(position);
         ui.showTaskMarked();
     }
 }

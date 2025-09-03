@@ -1,7 +1,5 @@
-package ryuji.storage; /**
- * Separates the input and determines what kind of
- * Initializes the chat list and UI, then starts interaction with the user.
- */
+package ryuji.storage;
+
 import ryuji.task.Task;
 
 import java.io.BufferedReader;

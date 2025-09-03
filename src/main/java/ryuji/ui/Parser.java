@@ -4,6 +4,7 @@ import ryuji.command.AddCommand;
 import ryuji.command.Command;
 import ryuji.command.DeleteCommand;
 import ryuji.command.ExitCommand;
+import ryuji.command.FindCommand;
 import ryuji.command.ListCommand;
 import ryuji.command.MarkCommand;
 import ryuji.command.UnmarkCommand;
@@ -33,7 +34,7 @@ public class Parser {
      */
     public Command parse(String input) {
         Command command;
-        String commandString = this.parseCommand(input);
+        String commandString = parseCommand(input);
         switch (commandString) {
         case "list":
             command = new ListCommand(commandString);
@@ -42,23 +43,25 @@ public class Parser {
             command = new ExitCommand(commandString);
             break;
         case "mark":
-            command = new MarkCommand(commandString, this.parsePosition(input));
+            command = new MarkCommand(commandString, parsePosition(input));
             break;
         case "unmark":
-            command = new UnmarkCommand(commandString, this.parsePosition(input));
+            command = new UnmarkCommand(commandString, parsePosition(input));
             break;
         case "delete":
-            command = new DeleteCommand(commandString, this.parsePosition(input));
+            command = new DeleteCommand(commandString, parsePosition(input));
             break;
         case "todo":
-            command = new AddCommand(commandString, new ToDo(this.parseTask(input)));
+            command = new AddCommand(commandString, new ToDo(parseTask(input)));
             break;
         case "deadline":
-            command = new AddCommand(commandString, new Deadline(this.parseTask(input)));
+            command = new AddCommand(commandString, new Deadline(parseTask(input)));
             break;
         case "event":
-            command = new AddCommand(commandString, new Event(this.parseTask(input)));
+            command = new AddCommand(commandString, new Event(parseTask(input)));
             break;
+        case "find":
+            command = new FindCommand(commandString, parseTask(input));
         default:
             throw new IllegalStateException("Unexpected value: " + commandString);
         }

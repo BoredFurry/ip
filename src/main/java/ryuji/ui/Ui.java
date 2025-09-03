@@ -9,16 +9,34 @@ import java.util.Scanner;
  */
 public class Ui {
 
+    /**
+     * ASCII art logo for the application, displayed on startup.
+     */
     private final String LOGO = " ____               _ _ \n"
             + "|  _ \\ _   _ _   _ (_|_)\n"
             + "| |_) | | | | | | || | |\n"
             + "|  _ <| |_| | |_| || | |\n"
             + "|_| \\_\\\\__, |\\__,_|/ |_|\n"
             + "       |___/     |__/   \n";
+
+    /**
+     * A horizontal divider line used for formatting console output.
+     */
     private final String LINE = "_______________________________________________________";
-    private final String GREETING = "Hello! I'm Ryuji.Ryuji\nWhat can I do for you?";
+
+    /**
+     * Default greeting message shown when the application starts.
+     */
+    private final String GREETING = "Hello! I'm Ryuji.\nWhat can I do for you?";
+
+    /**
+     * Farewell message displayed when the application is closed or exited.
+     */
     private final String FAREWELL = "Bye. Hope to see you again soon!\n";
 
+    /**
+     * Scanner used to read user input from the standard input stream (console).
+     */
     private Scanner scanner = new Scanner(System.in);
 
     /**

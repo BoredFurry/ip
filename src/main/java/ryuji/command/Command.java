@@ -10,7 +10,7 @@ import ryuji.ui.Ui;
  */
 public abstract class Command {
 
-    /** The command keyword string (e.g., "todo", "mark", "bye"). */
+    /** The command keyword string (e.g., "todo", "mark", "bye", "find"). */
     private final String command;
 
     /**
@@ -28,7 +28,7 @@ public abstract class Command {
      * @return the command string
      */
     public String getCommand() {
-        return this.command;
+        return command;
     }
 
     /**
@@ -59,6 +59,6 @@ public abstract class Command {
      */
     @Override
     public String toString() {
-        return this.command;
+        return command;
     }
 }

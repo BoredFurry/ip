@@ -1,23 +1,39 @@
 package ryuji.task;
 
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Represents a list of {@link Task} objects with operations
+ * to add, delete, mark, unmark, filter, and search tasks.
+ */
 public class TaskList {
+
+    /**
+     * The internal list that stores tasks.
+     */
     private List<Task> tasks;
 
+    /**
+     * Constructs an empty {@code TaskList}.
+     */
     public TaskList() {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Constructs a {@code TaskList} with the specified list of tasks.
+     *
+     * @param tasks the list of tasks to initialize the task list with
+     */
     public TaskList(List<Task> tasks) {
         this.tasks = tasks;
     }
 
     /**
-     * Adds a task to the list.
+     * Adds a valid task to the list. If the task is invalid,
+     * it will not be added and a message will be printed.
      *
      * @param item the task to add
      */
@@ -31,9 +47,10 @@ public class TaskList {
     }
 
     /**
-     * Deletes a task at the given 1-based index.
+     * Deletes a task at the specified 1-based index.
+     * If the index is out of bounds, an error message is printed.
      *
-     * @param index 1-based index of the task to delete
+     * @param index the 1-based index of the task to delete
      */
     public void deleteFromList(int index) {
         if (index < 1 || index > tasks.size()) {
@@ -45,9 +62,10 @@ public class TaskList {
     }
 
     /**
-     * Marks a task as completed.
+     * Marks the task at the specified 1-based index as completed.
+     * If the index is out of bounds, an error message is printed.
      *
-     * @param index 1-based index
+     * @param index the 1-based index of the task to mark as done
      */
     public void mark(int index) {
         if (index < 1 || index > tasks.size()) {
@@ -59,9 +77,10 @@ public class TaskList {
     }
 
     /**
-     * Unmarks a task as not completed.
+     * Unmarks the task at the specified 1-based index as not completed.
+     * If the index is out of bounds, an error message is printed.
      *
-     * @param index 1-based index
+     * @param index the 1-based index of the task to unmark
      */
     public void unmark(int index) {
         if (index < 1 || index > tasks.size()) {
@@ -73,9 +92,27 @@ public class TaskList {
     }
 
     /**
-     * Returns a string representation of the task list.
+     * Finds and returns a new {@code TaskList} containing tasks
+     * whose labels match the given search term.
      *
-     * @return formatted task list
+     * @param searchTerm the keyword to search for in task descriptions or labels
+     * @return a {@code TaskList} of matching tasks
+     */
+    public TaskList find(String searchTerm) {
+        ArrayList<Task> validTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.checkLabel(searchTerm)) {
+                validTasks.add(task);
+            }
+        }
+        return new TaskList(validTasks);
+    }
+
+    /**
+     * Returns a string representation of all tasks in the list.
+     * Tasks are numbered starting from 1.
+     *
+     * @return a formatted string listing all tasks
      */
     @Override
     public String toString() {
@@ -87,9 +124,10 @@ public class TaskList {
     }
 
     /**
-     * Lists only deadlines and events occurring on a specific date.
+     * Lists only deadlines and events that occur on the specified date.
+     * The matching tasks are printed in chronological order.
      *
-     * @param date the target date
+     * @param date the date to filter tasks by (only deadlines and events are considered)
      */
     public void listTasksOnDate(java.time.LocalDate date) {
         tasks.stream()
@@ -110,4 +148,3 @@ public class TaskList {
                 .forEach(System.out::println);
     }
 }
-
