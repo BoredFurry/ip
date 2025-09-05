@@ -26,7 +26,7 @@ public class ToDo extends Task {
      */
     @Override
     boolean checkValid() {
-        return this.label.split(" ").length > 1;
+        return this.label.split(" ").length >= 1;
     }
 
     /**

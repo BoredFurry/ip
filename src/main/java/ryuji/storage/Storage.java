@@ -18,18 +18,34 @@ public class Storage {
 
     private final String filePath;
 
-    public Storage(String filePath) {
-        this.filePath = filePath;
+    public Storage(String fileName) {
+        File file = new File(getFilePath(), fileName);
+
+        if (!file.exists()) {
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("File '" + fileName + "' created successfully.");
+                } else {
+                    System.out.println("File '" + fileName + "' already exists.");
+                }
+            } catch (IOException e) {
+                System.err.println("Error creating file '" + fileName + "': " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("File '" + fileName + "' already exists.");
+        }
+        this.filePath = fileName;
     }
 
     /**
      * Returns the path to the user's desktop directory.
      *
-     * @return the desktop path as a {@code String}.
+     * @return the file path as a {@code String}.
      */
-    private static String getDesktopPath() {
+    private static String getFilePath() {
         String home = System.getProperty("user.home");
-        return home + File.separator + "Desktop";
+        return home + File.separator + "Downloads";
     }
 
     /**
@@ -40,7 +56,7 @@ public class Storage {
      */
     public List<Task> readFile() {
         List<Task> rows = new ArrayList<>();
-        File file = new File(getDesktopPath(), filePath);
+        File file = new File(getFilePath(), filePath);
 
         if (!file.exists()) {
             System.err.println("Error: File does not exist: " + file.getAbsolutePath());
@@ -79,7 +95,7 @@ public class Storage {
      * @param task     the list of rows to write, each represented as a string array.
      */
     public void writeToFile(Task task) {
-        File file = new File(getDesktopPath(), this.filePath);
+        File file = new File(getFilePath(), this.filePath);
         String data = task.toCsvRow();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             bw.write(data);

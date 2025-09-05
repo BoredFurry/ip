@@ -33,12 +33,12 @@ public class Event extends Task {
      * Constructs an Event task from the full command string.
      * Example input: "event party /from 2019-12-02 1800 /to 2019-12-02 2000"
      *
-     * @param label the full input string including event description and times
+     * @param input the full input string including event description and times
      */
-    public Event(String label) {
-        super(label);
-        String[] fromSplit = label.split("/from", 2);
-        String[] toSplit = label.split("/to", 2);
+    public Event(String input) {
+        super(input.split("/from", 2)[0]);
+        String[] fromSplit = input.split("/from", 2);
+        String[] toSplit = input.split("/to", 2);
 
         if (fromSplit.length < 2 || toSplit.length < 2) {
             this.startParsed = null;
@@ -74,13 +74,13 @@ public class Event extends Task {
     /**
      * Constructs an Event task with mark status from the full command string.
      *
-     * @param label    the full input string including event description and times
+     * @param input    the full input string including event description and times
      * @param isMarked true if task is marked done, false otherwise
      */
-    public Event(String label, boolean isMarked) {
-        super(label, isMarked);
-        String[] fromSplit = label.split("/from", 2);
-        String[] toSplit = label.split("/to", 2);
+    public Event(String input, boolean isMarked) {
+        super(input.split("/from", 2)[0], isMarked);
+        String[] fromSplit = input.split("/from", 2);
+        String[] toSplit = input.split("/to", 2);
 
         if (fromSplit.length < 2 || toSplit.length < 2) {
             this.startParsed = null;

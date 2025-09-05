@@ -28,11 +28,11 @@ public class Deadline extends Task {
      * Constructs a Deadline task from a command string.
      * Example input: "deadline return book /by 2019-12-02 1800"
      *
-     * @param label the full command string including the deadline date/time
+     * @param input the full command string including the deadline date/time
      */
-    public Deadline(String label) {
-        super(label);
-        String[] parts = label.split("/by", 2);
+    public Deadline(String input) {
+        super(input.split("/by", 2)[0]);
+        String[] parts = input.split("/by", 2);
         if (parts.length < 2) {
             this.parsedDateTime = null;
             this.rawDateTime = "";
@@ -52,12 +52,13 @@ public class Deadline extends Task {
     /**
      * Constructs a Deadline task with mark status from a command string.
      *
-     * @param label    the full command string including the deadline date/time
+     * @param input    the full command string including the deadline date/time
      * @param isMarked true if the task is marked done, false otherwise
      */
-    public Deadline(String label, boolean isMarked) {
-        super(label, isMarked);
-        String[] parts = label.split("/by", 2);
+    public Deadline(String input, boolean isMarked) {
+        super(input.split("/by", 2)[0], isMarked);
+
+        String[] parts = input.split("/by", 2);
         if (parts.length < 2) {
             this.parsedDateTime = null;
             this.rawDateTime = "";

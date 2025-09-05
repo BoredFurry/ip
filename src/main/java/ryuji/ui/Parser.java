@@ -22,7 +22,8 @@ import java.util.Set;
  */
 public class Parser {
 
-    private final Set<String> commands = Set.of("list", "bye", "mark", "unmark", "todo", "deadline", "event", "delete");
+    private final Set<String> commands = Set.of("list", "bye", "mark", "unmark", "todo",
+            "find", "deadline", "event", "delete");
 
     /**
      * Parses the raw user input and returns the corresponding {@link Command} object.
@@ -34,7 +35,7 @@ public class Parser {
      */
     public Command parse(String input) {
         Command command;
-        String commandString = parseCommand(input);
+        String commandString = parseCommand(input.toLowerCase());
         switch (commandString) {
         case "list":
             command = new ListCommand(commandString);
@@ -62,6 +63,7 @@ public class Parser {
             break;
         case "find":
             command = new FindCommand(commandString, parseTask(input));
+            break;
         default:
             throw new IllegalStateException("Unexpected value: " + commandString);
         }

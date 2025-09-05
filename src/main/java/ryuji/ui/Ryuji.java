@@ -52,7 +52,6 @@ public class Ryuji {
             } catch (Exception e) {
                 ui.showError(e.getMessage());
             } finally {
-                ui.showFarewell();
                 ui.showLine();
             }
         }
@@ -64,6 +63,6 @@ public class Ryuji {
      * @param args command-line arguments (not used)
      */
     public static void main(String[] args) {
-        new Ryuji("data/tasks.csv").run();
+        new Ryuji("tasks.csv").run();
     }
 }
