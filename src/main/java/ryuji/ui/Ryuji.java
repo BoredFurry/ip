@@ -4,6 +4,11 @@ import ryuji.command.Command;
 import ryuji.storage.Storage;
 import ryuji.task.TaskList;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
 /**
  * The {@code Ryuji} class serves as the main entry point for the Ryuji chatbot application.
  * It is responsible for initializing the user interface, task list, storage, and parser.
@@ -14,6 +19,7 @@ public class Ryuji {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
+    private String commandType;
 
     /**
      * Constructs a {@code Ryuji} instance with the specified file path for storage.
@@ -32,6 +38,8 @@ public class Ryuji {
             this.tasks = new TaskList();
         }
     }
+
+    public Ryuji() {}
 
     /**
      * Starts the chatbot application.
@@ -56,6 +64,19 @@ public class Ryuji {
             }
         }
     }
+
+
+    public String getResponse(String input) {
+        Command c = parser.parse(input);
+        c.execute(tasks, ui, storage);
+        commandType = c.getClass().getSimpleName();
+        return c.getCommand();
+    }
+
+    public String getCommandType() {
+        return commandType;
+    }
+
 
     /**
      * Main method that launches the Ryuji chatbot application.
