@@ -4,11 +4,6 @@ import ryuji.command.Command;
 import ryuji.storage.Storage;
 import ryuji.task.TaskList;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.stage.Stage;
-
 /**
  * The {@code Ryuji} class serves as the main entry point for the Ryuji chatbot application.
  * It is responsible for initializing the user interface, task list, storage, and parser.
@@ -55,6 +50,7 @@ public class Ryuji {
                 String fullCommand = ui.readCommand();
                 ui.showLine(); // show the divider line ("_______")
                 Command c = parser.parse(fullCommand);
+                commandType = c.getClass().getSimpleName();
                 c.execute(tasks, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
@@ -66,11 +62,11 @@ public class Ryuji {
     }
 
 
+    /**
+     * Generates a response for the user's chat message.
+     */
     public String getResponse(String input) {
-        Command c = parser.parse(input);
-        c.execute(tasks, ui, storage);
-        commandType = c.getClass().getSimpleName();
-        return c.getCommand();
+        return "Duke heard: " + input;
     }
 
     public String getCommandType() {

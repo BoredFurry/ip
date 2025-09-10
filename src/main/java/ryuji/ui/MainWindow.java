@@ -24,15 +24,17 @@ public class MainWindow extends AnchorPane {
     private Ryuji ryuji;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Image ryujiImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
-    public void setDuke(Ryuji ryuji) {
+    /**
+     * Injects the Duke instance
+     */
+    public void setRyuji(Ryuji ryuji) {
         this.ryuji = ryuji;
     }
 
@@ -47,7 +49,7 @@ public class MainWindow extends AnchorPane {
         String commandType = ryuji.getCommandType();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage, commandType)
+                DialogBox.getDukeDialog(response, ryujiImage, commandType)
         );
         userInput.clear();
     }
