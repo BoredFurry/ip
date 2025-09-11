@@ -23,7 +23,7 @@ public class Event extends Task {
 
     /** Input formatter to parse date and optional time */
     private static final DateTimeFormatter inputFormatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd[ HHmm]");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd [HHmm]");
 
     /** Output formatter for displaying date/time to user */
     private static final DateTimeFormatter outputFormatter =
@@ -120,8 +120,19 @@ public class Event extends Task {
      */
     @Override
     boolean checkValid() {
-        return (startParsed != null || (startRaw != null && !startRaw.isEmpty()))
-                && (endParsed != null || (endRaw != null && !endRaw.isEmpty()));
+        boolean isStartParsedDateTimePresent = this.startParsed != null;
+        boolean isStartRawDateTimePresent = this.startRaw != null && !this.startRaw.isEmpty();
+
+        boolean isStartPresent = isStartParsedDateTimePresent || isStartRawDateTimePresent;
+
+        boolean isEndParsedDateTimePresent = this.endParsed != null;
+        boolean isEndRawDateTimePresent = endRaw != null && !endRaw.isEmpty();
+
+        boolean isEndPresent = isEndParsedDateTimePresent && isEndRawDateTimePresent;
+
+        boolean isDateTimePresent = isStartPresent || isEndPresent;
+
+        return isDateTimePresent;
     }
 
     /**
@@ -144,11 +155,20 @@ public class Event extends Task {
      */
     @Override
     public String toCsvRow() {
-        String status = getStatusIcon().equals("X") ? "1" : "0";
+        String status = getStatusIcon();
         String labelPart = this.label.split("/from", 2)[0].trim();
-        String startStr = (startParsed != null) ? startParsed.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : startRaw;
-        String endStr = (endParsed != null) ? endParsed.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : endRaw;
-        return String.format("E | %s | %s | %s | %s", status, labelPart, startStr, endStr);
+
+        String formattedStartDateTime = startParsed.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        boolean isStartParsedPresent = startParsed != null;
+
+        String startDateTimeStr = (isStartParsedPresent) ? formattedStartDateTime : startRaw;
+
+        String formattedEndDateTime = startParsed.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        boolean isEndParsedPresent = endParsed != null;
+
+        String endDateTimeStr = (isEndParsedPresent) ? formattedEndDateTime : endRaw;
+
+        return String.format("E,%s,%s,%s,%s", status, labelPart, startDateTimeStr, endDateTimeStr);
     }
 
     // Getter methods for start/end date/time

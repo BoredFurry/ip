@@ -38,7 +38,6 @@ public class DeleteCommand extends Command {
         try {
             storage.updateFile(this.position);
         } catch (Exception e) {
-            // Consider logging or showing the error instead of silently ignoring
             System.err.println("Error updating storage file: " + e.getMessage());
         }
     }
