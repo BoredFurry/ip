@@ -18,7 +18,7 @@ public class Deadline extends Task {
 
     /** Input formatter to parse date and optional time (time optional). */
     private static final DateTimeFormatter inputFormatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd[ HHmm]");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd [HHmm]");
 
     /** Output formatter to display the date in a user-friendly format. */
     private static final DateTimeFormatter outputFormatter =
@@ -33,6 +33,7 @@ public class Deadline extends Task {
     public Deadline(String input) {
         super(input.split("/by", 2)[0]);
         String[] parts = input.split("/by", 2);
+
         if (parts.length < 2) {
             this.parsedDateTime = null;
             this.rawDateTime = "";
@@ -57,8 +58,8 @@ public class Deadline extends Task {
      */
     public Deadline(String input, boolean isMarked) {
         super(input.split("/by", 2)[0], isMarked);
-
         String[] parts = input.split("/by", 2);
+
         if (parts.length < 2) {
             this.parsedDateTime = null;
             this.rawDateTime = "";
@@ -82,7 +83,12 @@ public class Deadline extends Task {
      */
     @Override
     boolean checkValid() {
-        return this.parsedDateTime != null || (this.rawDateTime != null && !this.rawDateTime.isEmpty());
+        boolean isParsedDateTimePresent = this.parsedDateTime != null;
+        boolean isRawDateTimePresent = this.rawDateTime != null && !this.rawDateTime.isEmpty();
+
+        boolean areBothTimesPresent = isParsedDateTimePresent || isRawDateTimePresent;
+
+        return areBothTimesPresent;
     }
 
     /**
@@ -93,9 +99,15 @@ public class Deadline extends Task {
      */
     @Override
     public String toCsvRow() {
-        String status = getStatusIcon().equals("X") ? "1" : "0"; // Assuming "X" means done
-        String dateStr = (parsedDateTime != null) ? parsedDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : rawDateTime;
-        return String.format("D | %s | %s | %s", status, this.label.split("/by")[0].trim(), dateStr);
+        String status = getStatusIcon();
+        String labelPart = this.label.split("/from", 2)[0].trim();
+
+        String formattedDateTime = parsedDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        boolean isDateTimePresent = parsedDateTime != null;
+
+        String dateStr = (isDateTimePresent) ? formattedDateTime : rawDateTime;
+
+        return String.format("D,%s,%s,%s", status, labelPart, dateStr);
     }
 
     /**
@@ -106,7 +118,8 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         if (parsedDateTime != null) {
-            return "[D]" + super.toString() + " (by: " + parsedDateTime.format(outputFormatter) + ")";
+            return "[D]" + super.toString() + " (by: "
+                    + parsedDateTime.format(outputFormatter) + ")";
         } else {
             return "[D]" + super.toString() + " (by: " + rawDateTime + ")";
         }

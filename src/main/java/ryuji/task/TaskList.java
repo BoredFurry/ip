@@ -122,29 +122,4 @@ public class TaskList {
         }
         return sb.toString();
     }
-
-    /**
-     * Lists only deadlines and events that occur on the specified date.
-     * The matching tasks are printed in chronological order.
-     *
-     * @param date the date to filter tasks by (only deadlines and events are considered)
-     */
-    public void listTasksOnDate(java.time.LocalDate date) {
-        tasks.stream()
-                .filter(t -> t instanceof Deadline || t instanceof Event)
-                .filter(t -> {
-                    if (t instanceof Deadline d && d.getParsedDateTime() != null) {
-                        return d.getParsedDateTime().toLocalDate().equals(date);
-                    } else if (t instanceof Event e && e.getStartParsed() != null) {
-                        return e.getStartParsed().toLocalDate().equals(date);
-                    }
-                    return false;
-                })
-                .sorted(Comparator.comparing(t -> {
-                    if (t instanceof Deadline d && d.getParsedDateTime() != null) return d.getParsedDateTime();
-                    else if (t instanceof Event e && e.getStartParsed() != null) return e.getStartParsed();
-                    else return java.time.LocalDateTime.MAX;
-                }))
-                .forEach(System.out::println);
-    }
 }

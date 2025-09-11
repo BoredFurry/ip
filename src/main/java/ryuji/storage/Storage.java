@@ -35,6 +35,7 @@ public class Storage {
         } else {
             System.out.println("File '" + fileName + "' already exists.");
         }
+
         this.filePath = fileName;
     }
 
@@ -97,6 +98,7 @@ public class Storage {
     public void writeToFile(Task task) {
         File file = new File(getFilePath(), this.filePath);
         String data = task.toCsvRow();
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             bw.write(data);
             bw.newLine();
@@ -106,6 +108,16 @@ public class Storage {
         }
     }
 
+    /**
+     * Updates a file by removing the line at the specified position.
+     *
+     * <p>This method reads the original file line by line and writes all lines
+     * except the one at the specified position to a temporary file. After processing,
+     * the original file is deleted and the temporary file is renamed to replace it.</p>
+     *
+     * @param position the 1-based line number to be removed from the file
+     * @throws IOException if an I/O error occurs during reading, writing, or file manipulation
+     */
     public void updateFile(int position) throws IOException{
         String currentLine;
         File originalFile = new File(filePath);
