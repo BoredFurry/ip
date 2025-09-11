@@ -20,6 +20,7 @@ public class DeleteCommand extends Command {
      */
     public DeleteCommand(String command, int position) {
         super(command);
+        assert position > 0 : "use a number that is greater than 0";
         this.position = position;
     }
 
