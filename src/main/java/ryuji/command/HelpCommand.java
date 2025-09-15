@@ -4,7 +4,19 @@ import ryuji.storage.Storage;
 import ryuji.task.TaskList;
 import ryuji.ui.Ui;
 
+/**
+ * Represents a command that displays help information to the user.
+ * This command is used to explain the different types of tasks (ToDo, Deadline, Event)
+ * and the supported commands in the Ryuji task management system.
+ *
+ * When executed, it displays a guide containing examples of usage for each command.
+ */
 public class HelpCommand extends Command {
+
+    /**
+     * A formatted multi-line string that contains all the help instructions
+     * and examples of commands that the user can use.
+     */
     private final String HELPMESSAGE = """
             Welcome to RyujiCafe, here is the menu:
             In this cafe, you can keep track of tasks to that you can focus on doing them
@@ -52,10 +64,23 @@ public class HelpCommand extends Command {
             Go ahead and try some of these commands
             """;
 
+    /**
+     * Constructs a HelpCommand with the given raw command string.
+     *
+     * @param command The raw user input that triggered this command.
+     */
     public HelpCommand(String command) {
         super(command);
     }
 
+    /**
+     * Executes the help command by displaying the help message through the UI.
+     * This method does not modify the task list or the storage.
+     *
+     * @param tasks   The current task list (unused in this command).
+     * @param ui      The UI instance used to display messages to the user.
+     * @param storage The storage instance (unused in this command).
+     */
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         ui.showHelp(HELPMESSAGE);

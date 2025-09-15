@@ -19,12 +19,12 @@ import java.util.Set;
  * The {@code Parser} class is responsible for interpreting user input
  * and converting it into executable {@link Command} objects.
  * It supports various commands such as "list", "todo", "deadline", "event",
- * "mark", "unmark", "delete", and "bye".
+ * "mark", "unmark", "delete", "find", "help" and "bye".
  */
 public class Parser {
 
     private final Set<String> commands = Set.of("list", "bye", "mark", "unmark", "todo",
-            "find", "deadline", "event", "delete");
+            "find", "help", "deadline", "event", "delete");
 
     /**
      * Parses the raw user input and returns the corresponding {@link Command} object.
@@ -67,6 +67,7 @@ public class Parser {
             break;
         case "help":
             command = new HelpCommand(commandString);
+            break;
         default:
             throw new IllegalStateException("Unexpected value: " + commandString);
         }
