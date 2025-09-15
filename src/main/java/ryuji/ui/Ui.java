@@ -115,4 +115,9 @@ public class Ui {
     public void showFailuretoLoadTaskListError() {
         System.out.println("The file doesn't exist, here's an empty list");
     }
+
+
+    public void showHelp(String helpMessage) {
+        System.out.println(helpMessage);
+    }
 }

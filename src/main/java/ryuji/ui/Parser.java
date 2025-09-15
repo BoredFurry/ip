@@ -5,6 +5,7 @@ import ryuji.command.Command;
 import ryuji.command.DeleteCommand;
 import ryuji.command.ExitCommand;
 import ryuji.command.FindCommand;
+import ryuji.command.HelpCommand;
 import ryuji.command.ListCommand;
 import ryuji.command.MarkCommand;
 import ryuji.command.UnmarkCommand;
@@ -64,6 +65,8 @@ public class Parser {
         case "find":
             command = new FindCommand(commandString, parseTask(input));
             break;
+        case "help":
+            command = new HelpCommand(commandString);
         default:
             throw new IllegalStateException("Unexpected value: " + commandString);
         }

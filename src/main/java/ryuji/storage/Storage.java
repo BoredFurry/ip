@@ -127,7 +127,9 @@ public class Storage {
         int currentPosition = 1;
 
         while ((currentLine = reader.readLine()) != null) {
-            if (currentPosition != position) writer.write(currentLine + System.lineSeparator());
+            if (currentPosition != position) {
+                writer.write(currentLine + System.lineSeparator());
+            }
         }
 
         reader.close();
