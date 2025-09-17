@@ -34,8 +34,7 @@ public class MarkCommand extends Command {
      * @param storage the {@code Storage} responsible for data persistence
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        tasks.mark(position);
-        ui.showTaskMarked();
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return tasks.mark(position);
     }
 }

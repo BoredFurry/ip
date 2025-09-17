@@ -33,12 +33,13 @@ public class DeleteCommand extends Command {
      * @param storage the {@code Storage} responsible for saving task data
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        tasks.deleteFromList(this.position);
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        String message = tasks.deleteFromList(this.position);
         try {
             storage.updateFile(this.position);
         } catch (Exception e) {
-            System.err.println("Error updating storage file: " + e.getMessage());
+            return "There was an error trying to store your task list master: " + e.getMessage();
         }
+        return message;
     }
 }

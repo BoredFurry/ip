@@ -28,7 +28,7 @@ public class ExitCommand extends Command {
      * @param storage the storage handler (not used)
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showFarewell();
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return ui.showFarewell();
     }
 }

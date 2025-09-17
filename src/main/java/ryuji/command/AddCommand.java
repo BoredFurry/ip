@@ -33,9 +33,9 @@ public class AddCommand extends Command {
      * @param storage the {@code Storage} responsible for saving task data
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        tasks.addToList(task);
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        String message = tasks.addToList(task);
         storage.writeToFile(task);
-        ui.showTaskAdded();
+        return message;
     }
 }

@@ -12,7 +12,7 @@ public class Ui {
     /**
      * ASCII art logo for the application, displayed on startup.
      */
-    private final String LOGO = " ____               _ _ \n"
+    private static final String LOGO = " ____               _ _ \n"
             + "|  _ \\ _   _ _   _ (_|_)\n"
             + "| |_) | | | | | | || | |\n"
             + "|  _ <| |_| | |_| || | |\n"
@@ -22,17 +22,17 @@ public class Ui {
     /**
      * A horizontal divider line used for formatting console output.
      */
-    private final String LINE = "_______________________________________________________";
+    private static final String LINE = "_______________________________________________________";
 
     /**
      * Default greeting message shown when the application starts.
      */
-    private final String GREETING = "Hello! I'm Ryuji.\nWhat can I do for you?";
+    private static final String GREETING = "Hello! I'm Ryuji.\nWhat can I do for you?";
 
     /**
      * Farewell message displayed when the application is closed or exited.
      */
-    private final String FAREWELL = "Bye. Hope to see you again soon!\n";
+    private static final String FAREWELL = "Bye. Hope to see you again soon!\n";
 
     /**
      * Scanner used to read user input from the standard input stream (console).
@@ -42,22 +42,22 @@ public class Ui {
     /**
      * Displays the welcome message and logo when the application starts.
      */
-    public void showWelcome() {
-        System.out.println(this.LINE + "\n" + this.LOGO + "\n" + this.GREETING + "\n" + this.LINE);
+    public static String showWelcome() {
+        return LINE + "\n" + LOGO + "\n" + GREETING + "\n" + LINE;
     }
 
     /**
      * Displays a horizontal divider line to separate console output.
      */
-    public void showLine() {
-        System.out.println(this.LINE);
+    public String showLine() {
+        return this.LINE;
     }
 
     /**
      * Displays a farewell message when the user exits the application.
      */
-    public void showFarewell() {
-        System.out.println(this.FAREWELL);
+    public String showFarewell() {
+        return this.FAREWELL;
     }
 
     /**
@@ -65,8 +65,8 @@ public class Ui {
      *
      * @param tasks the {@code TaskList} containing all tasks to be displayed
      */
-    public void displayTaskList(TaskList tasks) {
-        System.out.println(tasks);
+    public String displayTaskList(TaskList tasks) {
+        return tasks.toString();
     }
 
     /**
@@ -83,41 +83,41 @@ public class Ui {
      *
      * @param exception the error message to be shown
      */
-    public void showError(String exception) {
-        System.out.println(new RyujiException(exception).getMessage());
+    public String showError(String exception) {
+        return new RyujiException(exception).getMessage();
     }
 
     /**
      * Displays a confirmation message when a task is added to the task list.
      */
-    public void showTaskAdded() {
-        System.out.println("Item added to tasklist");
+    public String showTaskAdded() {
+        return "I've added the task to your tasklist master";
     }
 
     /**
      * Displays a confirmation message when a task is unmarked (marked as not done).
      */
-    public void showTaskUnmarked() {
-        System.out.println("Item unmarked");
+    public String showTaskUnmarked() {
+        return "I have unmarked the item for you master";
     }
 
     /**
      * Displays a confirmation message when a task is marked as done.
      */
-    public void showTaskMarked() {
-        System.out.println("Item marked as done");
+    public String showTaskMarked() {
+        return "I've marked the item as done for you master";
     }
 
     /**
      * Displays an error message when the task list fails to load from file.
      * An empty list will be initialized in this case.
      */
-    public void showFailuretoLoadTaskListError() {
-        System.out.println("The file doesn't exist, here's an empty list");
+    public String showFailuretoLoadTaskListError() {
+        return "The file you have given me does not exist master, here's an empty list for this session";
     }
 
 
-    public void showHelp(String helpMessage) {
-        System.out.println(helpMessage);
+    public String showHelp(String helpMessage) {
+        return helpMessage;
     }
 }

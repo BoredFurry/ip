@@ -17,52 +17,41 @@ public class HelpCommand extends Command {
      * A formatted multi-line string that contains all the help instructions
      * and examples of commands that the user can use.
      */
-    private final String HELPMESSAGE = """
-            Welcome to RyujiCafe, here is the menu:
-            In this cafe, you can keep track of tasks to that you can focus on doing them
-            Types of tasks I can assist with:
-            ToDos
-                type: todo make coffee
-                result: [T][ ] make coffee
-            
-            Deadlines
-                type: deadline return book /by 2025-09-15 1600
-                result: [D][ ] return book (by 2025-09-15 1600)
-            
-            Events
-                type: event JMOF /from 2026-01-09 /to 2026-01-11
-                result: [E][ ] JMOF (from 2026-01-09 to 2026-01-11)
-            
-            Commands to help you with your list of tasks:
-            Mark
-                type: mark 1
-                result: [T][ ] return book -> [T][X] return book
-            
-            Unmark
-                type: unmark 1
-                result: [T][X] return book -> [T][ ] return book
-            
-            List
-                type: list
-                 result:
-                1. [T][ ] make coffee
-                2. [D][ ] return book (by 2025-09-15 1600)
-                3. [E][ ] JMOF (from 2026-01-09 to 2026-01-11)
-            
-            Delete
-                type delete 1
-                result: first item will be removed from the list
-            
-            Find
-                type: find book
-                result: 1. [D] return book (by 2025-09-15)
-            
-            Exit
-                type: exit
-                result: ends the chat with Ryuji
-            
-            Go ahead and try some of these commands
-            """;
+    private final String HELPMESSAGE = "Welcome to RyujiCafe, here is the menu:\n" +
+            "In this cafe, you can keep track of tasks to that you can focus on doing them\n" +
+            "Types of tasks I can assist with:\n" +
+            "ToDos\n" +
+            "    type: todo make coffee\n" +
+            "    result: [T][ ] make coffee\n\n" +
+            "Deadlines\n" +
+            "    type: deadline return book /by 2025-09-15 1600\n" +
+            "    result: [D][ ] return book (by 2025-09-15 1600)\n\n" +
+            "Events\n" +
+            "    type: event JMOF /from 2026-01-09 /to 2026-01-11\n" +
+            "    result: [E][ ] JMOF (from 2026-01-09 to 2026-01-11)\n\n" +
+            "Commands to help you with your list of tasks:\n" +
+            "Mark\n" +
+            "    type: mark 1\n" +
+            "    result: [T][ ] return book -> [T][X] return book\n\n" +
+            "Unmark\n" +
+            "    type: unmark 1\n" +
+            "    result: [T][X] return book -> [T][ ] return book\n\n" +
+            "List\n" +
+            "    type: list\n" +
+            "     result:\n" +
+            "    1. [T][ ] make coffee\n" +
+            "    2. [D][ ] return book (by 2025-09-15 1600)\n" +
+            "    3. [E][ ] JMOF (from 2026-01-09 to 2026-01-11)\n\n" +
+            "Delete\n" +
+            "    type delete 1\n" +
+            "    result: first item will be removed from the list\n\n" +
+            "Find\n" +
+            "    type: find book\n" +
+            "    result: 1. [D] return book (by 2025-09-15)\n\n" +
+            "Exit\n" +
+            "    type: exit\n" +
+            "    result: ends the chat with Ryuji\n\n" +
+            "Go ahead and try some of these commands";
 
     /**
      * Constructs a HelpCommand with the given raw command string.
@@ -82,7 +71,7 @@ public class HelpCommand extends Command {
      * @param storage The storage instance (unused in this command).
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.showHelp(HELPMESSAGE);
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return HELPMESSAGE;
     }
 }

@@ -102,12 +102,20 @@ public abstract class Task {
         String taskType = row[0];
         boolean isMarked = row[1].equals("X");
         String label = row[2];
-        task = switch (taskType) {
-            case "todo" -> new ToDo(label, isMarked);
-            case "deadline" -> new Deadline(label, isMarked);
-            case "event" -> new Event(label, isMarked);
-            default -> null;
-        };
+
+        switch (taskType) {
+        case "todo":
+            task = new ToDo(label, isMarked);
+            break;
+        case "deadline":
+            task = new Deadline(label, isMarked);
+            break;
+        case "event":
+            task = new Event(label, isMarked);
+            break;
+        default:
+            task = null;
+        }
         return task;
     }
 

@@ -34,8 +34,7 @@ public class UnmarkCommand extends Command {
      * @param storage the {@code Storage} responsible for data persistence
      */
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        tasks.unmark(this.position);
-        ui.showTaskUnmarked();
+    public String execute(TaskList tasks, Ui ui, Storage storage) {
+        return tasks.unmark(this.position);
     }
 }

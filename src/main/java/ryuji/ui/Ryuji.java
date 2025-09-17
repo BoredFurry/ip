@@ -14,7 +14,7 @@ public class Ryuji {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
-    private String commandType;
+    private String response;
 
     /**
      * Constructs a {@code Ryuji} instance with the specified file path for storage.
@@ -43,15 +43,13 @@ public class Ryuji {
      * Shows error messages and a farewell message as appropriate.
      */
     public void run() {
-        ui.showWelcome();
         boolean isExit = false;
         while (!isExit) {
             try {
                 String fullCommand = ui.readCommand();
                 ui.showLine(); // show the divider line ("_______")
                 Command c = parser.parse(fullCommand);
-                commandType = c.getClass().getSimpleName();
-                c.execute(tasks, ui, storage);
+                response = c.execute(tasks, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
                 ui.showError(e.getMessage());
@@ -66,13 +64,13 @@ public class Ryuji {
      * Generates a response for the user's chat message.
      */
     public String getResponse(String input) {
-        return "Duke heard: " + input;
+        try {
+            Command c = parser.parse(input);
+            return response = c.execute(tasks, ui, storage);
+        } catch (Exception e) {
+            return response = ui.showError(e.getMessage());
+        }
     }
-
-    public String getCommandType() {
-        return commandType;
-    }
-
 
     /**
      * Main method that launches the Ryuji chatbot application.

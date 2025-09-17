@@ -8,6 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Controller for the main GUI.
  */
@@ -23,16 +27,21 @@ public class MainWindow extends AnchorPane {
 
     private Ryuji ryuji;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image ryujiImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private final Image userImage = new Image(this
+            .getClass().getResourceAsStream("/images/UserPFP.png"));
+    private final Image ryujiImage = new Image(this.getClass()
+            .getResourceAsStream("/images/RyujiPFP.png"));
+    private final Image backgroundImage = new Image(this
+            .getClass().getResourceAsStream("/images/background.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.getChildren().addAll(DialogBox.getRyujiDialog(Ui.showWelcome(), ryujiImage));
     }
 
     /**
-     * Injects the Duke instance
+     * Injects the Ryuji instance
      */
     public void setRyuji(Ryuji ryuji) {
         this.ryuji = ryuji;
@@ -46,12 +55,22 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = ryuji.getResponse(input);
-        String commandType = ryuji.getCommandType();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, ryujiImage, commandType)
+                DialogBox.getRyujiDialog(response, ryujiImage)
         );
         userInput.clear();
+
+        if (input.equals("bye")) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.exit(1);
+                    timer.cancel();
+                }
+            }, 5000);
+        }
     }
 
 }

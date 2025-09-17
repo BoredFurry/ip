@@ -10,9 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 
 /**
  * Represents a dialog box consisting of an ImageView to represent the speaker's face
@@ -23,6 +24,7 @@ public class DialogBox extends HBox {
     private Label dialog;
     @FXML
     private ImageView displayPicture;
+
 
     private DialogBox(String text, Image img) {
         try {
@@ -46,45 +48,16 @@ public class DialogBox extends HBox {
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
         setAlignment(Pos.TOP_LEFT);
-        dialog.getStyleClass().add("reply-label");
+        dialog.getStyleClass().add("label");
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
     }
 
-    private void changeDialogStyle(String commandType) {
-        switch(commandType) {
-        case "AddCommand":
-            dialog.getStyleClass().add("add-label");
-            break;
-        case "MarkCommand":
-            dialog.getStyleClass().add("marked-label");
-            break;
-        case "UnmarkCommand":
-            dialog.getStyleClass().add("unmarked-label");
-            break;
-        case "DeleteCommand":
-            dialog.getStyleClass().add("delete-label");
-            break;
-        case "find":
-            dialog.getStyleClass().add("find-label");
-            break;
-        case "ListCommand":
-            dialog.getStyleClass().add("list-label");
-            break;
-        case "ExitCommand":
-            dialog.getStyleClass().add("exit-label");
-            break;
-        default:
-            // Do nothing
-        }
-    }
-
-    public static DialogBox getDukeDialog(String text, Image img, String commandType) {
+    public static DialogBox getRyujiDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
-        db.changeDialogStyle(commandType);
         return db;
     }
 

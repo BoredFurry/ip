@@ -37,12 +37,12 @@ public class TaskList {
      *
      * @param item the task to add
      */
-    public void addToList(Task item) {
+    public String addToList(Task item) {
         if (item.checkValid()) {
             tasks.add(item);
-            System.out.println("Added: " + item);
+            return "I have added the following task form your task list master: " + item;
         } else {
-            System.out.println("Invalid task format.");
+            return "I am unable to add that task to your list master for it is in the wrong format";
         }
     }
 
@@ -52,13 +52,12 @@ public class TaskList {
      *
      * @param index the 1-based index of the task to delete
      */
-    public void deleteFromList(int index) {
+    public String deleteFromList(int index) {
         if (index < 1 || index > tasks.size()) {
-            System.out.println("Index out of bounds.");
-            return;
+            return "Master I can't find that item in your list";
         }
         Task removed = tasks.remove(index - 1);
-        System.out.println("Removed: " + removed);
+        return "I have removed the following task form your task list master: " + removed;
     }
 
     /**
@@ -67,13 +66,12 @@ public class TaskList {
      *
      * @param index the 1-based index of the task to mark as done
      */
-    public void mark(int index) {
+    public String mark(int index) {
         if (index < 1 || index > tasks.size()) {
-            System.out.println("Index out of bounds.");
-            return;
+            return "Master I can't find that item in your list";
         }
         tasks.get(index - 1).mark();
-        System.out.println("Marked as done: " + tasks.get(index - 1));
+        return "I have marked the following task as completed master: " + tasks.get(index - 1);
     }
 
     /**
@@ -82,13 +80,12 @@ public class TaskList {
      *
      * @param index the 1-based index of the task to unmark
      */
-    public void unmark(int index) {
+    public String unmark(int index) {
         if (index < 1 || index > tasks.size()) {
-            System.out.println("Index out of bounds.");
-            return;
+            return "Master I can't find that item in your list";
         }
         tasks.get(index - 1).unmark();
-        System.out.println("Unmarked: " + tasks.get(index - 1));
+        return "I have unmarked the following task from your list master: " + tasks.get(index - 1);
     }
 
     /**
@@ -116,7 +113,7 @@ public class TaskList {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Here are your tasks:\n");
+        StringBuilder sb = new StringBuilder("Here are the tasks you requested master\n");
         for (int i = 0; i < tasks.size(); i++) {
             sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
         }

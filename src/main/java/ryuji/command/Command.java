@@ -50,7 +50,7 @@ public abstract class Command {
      * @param ui      the UI component for interaction with the user
      * @param storage the storage component for persistent data management
      */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage);
+    public abstract String execute(TaskList tasks, Ui ui, Storage storage);
 
     /**
      * Returns the string representation of this command.
