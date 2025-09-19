@@ -1,6 +1,8 @@
 package ryuji.storage;
 
 import ryuji.task.Task;
+import ryuji.ui.RyujiException;
+import ryuji.ui.Ui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,7 +22,11 @@ import java.util.List;
  */
 public class Storage {
 
+    /** The absolute path of the file used for storing tasks. */
     private final String filePath;
+
+    /** An instance of the {@link Ui} class used for interacting with the user. */
+    private final Ui ui = new Ui();
 
     /**
      * Constructs a {@code Storage} object with the specified file name.
@@ -63,12 +69,12 @@ public class Storage {
         File file = new File(filePath);
 
         if (!file.exists()) {
-            System.err.println("Sorry master but your file does not exist: " + filePath);
+            ui.showError("Sorry master but your file does not exist: " + filePath);
             return rows;
         }
 
         if (!file.canRead()) {
-            System.err.println("Sorry master but I cannot read that file: " + filePath);
+            ui.showError("Sorry master but I cannot read that file: " + filePath);
             return rows;
         }
 
@@ -82,11 +88,11 @@ public class Storage {
                     Task task = Task.fromCsvRow(values);
                     rows.add(task);
                 } catch (Exception e) {
-                    System.err.println("Sorry master but I can't read this task:\n" + lineNum + ": " + line);
+                    ui.showError("Sorry master but I can't read this task:\n" + lineNum + ": " + line);
                 }
             }
         } catch (IOException e) {
-            System.err.println("Sorry master but I have trouble reading the file: " + e.getMessage());
+            ui.showError(e.getMessage());
         }
 
         return rows;
@@ -116,10 +122,8 @@ public class Storage {
 
             out.println(row);
 
-            System.out.println("Row added successfully to " + filePath);
-
         } catch (IOException e) {
-            System.err.println("Error adding row to CSV: " + e.getMessage());
+            ui.showError("I had trouble writing the file into your storage master: " + e.getMessage());
         }
     }
 
@@ -137,10 +141,8 @@ public class Storage {
 
             out.println(row);
 
-            System.out.println("Row added successfully to " + path);
-
         } catch (IOException e) {
-            System.err.println("Error adding row to CSV: " + e.getMessage());
+            ui.showError("I had trouble writing the file into your storage master: " + e.getMessage());
         }
     }
 
@@ -160,7 +162,7 @@ public class Storage {
         }
 
         pathArrayMutable.remove(pathArrayMutable.size() - 1);
-        pathArrayMutable.add("temp.csv");
+        pathArrayMutable.add(filename);
         String pathTemp = String.join("/", pathArrayMutable);
         return pathTemp;
     }
@@ -187,7 +189,6 @@ public class Storage {
 
         while ((currentLine = reader.readLine()) != null) {
             if (currentPosition == position) {
-                System.out.println("obj deleted");
                 currentPosition++;
                 continue;
             }

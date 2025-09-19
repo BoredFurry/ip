@@ -9,6 +9,11 @@ checkstyle {
     toolVersion = '11.0.1'
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17) // Specify your desired Java version
+    }
+}
 
 repositories {
     mavenCentral()
