@@ -2,12 +2,15 @@ package ryuji.storage;
 
 import ryuji.task.Task;
 
+
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,9 @@ public class Storage {
     private final String filePath;
 
     public Storage(String fileName) {
-        File file = new File(getFilePath(), fileName);
+        File file = new File(fileName);
+
+        String absolutePath = file.getAbsolutePath();
 
         if (!file.exists()) {
             try {
@@ -36,17 +41,7 @@ public class Storage {
             System.out.println("File '" + fileName + "' already exists.");
         }
 
-        this.filePath = fileName;
-    }
-
-    /**
-     * Returns the path to the user's desktop directory.
-     *
-     * @return the file path as a {@code String}.
-     */
-    private static String getFilePath() {
-        String home = System.getProperty("user.home");
-        return home + File.separator + "Downloads";
+        this.filePath = absolutePath;
     }
 
     /**
@@ -57,15 +52,15 @@ public class Storage {
      */
     public List<Task> readFile() {
         List<Task> rows = new ArrayList<>();
-        File file = new File(getFilePath(), filePath);
+        File file = new File(filePath);
 
         if (!file.exists()) {
-            System.err.println("Error: File does not exist: " + file.getAbsolutePath());
+            System.err.println("Sorry master but your file does not exist: " + filePath);
             return rows;
         }
 
         if (!file.canRead()) {
-            System.err.println("Error: Cannot read file: " + file.getAbsolutePath());
+            System.err.println("Sorry master but I cannot read that file: " + filePath);
             return rows;
         }
 
@@ -75,15 +70,15 @@ public class Storage {
             while ((line = br.readLine()) != null) {
                 lineNum++;
                 try {
-                    String[] values = line.split(",");
+                    String[] values = line.split(",", 3);
                     Task task = Task.fromCsvRow(values);
                     rows.add(task);
                 } catch (Exception e) {
-                    System.err.println("Warning: Error parsing line " + lineNum + ": " + line);
+                    System.err.println("Sorry master but I can't read this task:\n" + lineNum + ": " + line);
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+            System.err.println("Sorry master but I have trouble reading the file: " + e.getMessage());
         }
 
         return rows;
@@ -95,17 +90,51 @@ public class Storage {
      *
      * @param task     the list of rows to write, each represented as a string array.
      */
-    public void writeToFile(Task task) {
-        File file = new File(getFilePath(), this.filePath);
+    public void writeTaskToFile(Task task) {
         String data = task.toCsvRow();
+        writeToFile(data);
+    }
 
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-            bw.write(data);
-            bw.newLine();
-            System.out.println("Successfully wrote to file: " + file.getAbsolutePath());
+    private void writeToFile(String row) {
+        try (FileWriter fw = new FileWriter(filePath, true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+
+            out.println(row);
+
+            System.out.println("Row added successfully to " + filePath);
+
         } catch (IOException e) {
-            System.err.println("Error writing to the file: " + e.getMessage());
+            System.err.println("Error adding row to CSV: " + e.getMessage());
         }
+    }
+
+    public void writeToFile(String row, String path) {
+        try (FileWriter fw = new FileWriter(path, true);
+             BufferedWriter bw = new BufferedWriter(fw);
+             PrintWriter out = new PrintWriter(bw)) {
+
+            out.println(row);
+
+            System.out.println("Row added successfully to " + path);
+
+        } catch (IOException e) {
+            System.err.println("Error adding row to CSV: " + e.getMessage());
+        }
+    }
+
+    private String makeFilePath(String filename) {
+        String[] pathArray = filePath.split("/");
+        ArrayList<String> pathArrayMutable = new ArrayList<>();
+
+        for (String dir : pathArray) {
+            pathArrayMutable.add(dir);
+        }
+
+        pathArrayMutable.remove(pathArrayMutable.size() - 1);
+        pathArrayMutable.add("temp.csv");
+        String pathTemp = String.join("/", pathArrayMutable);
+        return pathTemp;
     }
 
     /**
@@ -118,24 +147,38 @@ public class Storage {
      * @param position the 1-based line number to be removed from the file
      * @throws IOException if an I/O error occurs during reading, writing, or file manipulation
      */
-    public void updateFile(int position) throws IOException{
+    public void removeTaskFromFile(int position) throws IOException{
         String currentLine;
         File originalFile = new File(filePath);
-        File tempFile = new File("temp.csv");
+
+        String pathTemp = makeFilePath("temp.csv");
+        File tempFile = new File(pathTemp);
+
+        tempFile.createNewFile();
         BufferedReader reader = new BufferedReader(new FileReader(originalFile));
         BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
         int currentPosition = 1;
 
         while ((currentLine = reader.readLine()) != null) {
-            if (currentPosition != position) {
-                writer.write(currentLine + System.lineSeparator());
+            if (currentPosition == position) {
+                System.out.println("obj deleted");
+                currentPosition++;
+                continue;
             }
+            writeToFile(currentLine, pathTemp);
+            currentPosition++;
         }
 
         reader.close();
         writer.close();
 
-        originalFile.delete();
-        tempFile.renameTo(originalFile);
+        if (!originalFile.delete()) {
+            System.err.println("Could not delete original file");
+            return;
+        }
+
+        if (!tempFile.renameTo(originalFile)) {
+            System.err.println("Could not rename temporary file");
+        }
     }
 }

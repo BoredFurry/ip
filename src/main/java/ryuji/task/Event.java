@@ -10,24 +10,16 @@ import java.time.format.DateTimeParseException;
  */
 public class Event extends Task {
     /** Parsed start date-time, or null if parsing fails */
-    private final LocalDateTime startParsed;
+    private final String startParsed;
 
     /** Parsed end date-time, or null if parsing fails */
-    private final LocalDateTime endParsed;
+    private final String endParsed;
 
     /** Raw start date/time string, fallback if parsing fails */
     private final String startRaw;
 
     /** Raw end date/time string, fallback if parsing fails */
     private final String endRaw;
-
-    /** Input formatter to parse date and optional time */
-    private static final DateTimeFormatter inputFormatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd [HHmm]");
-
-    /** Output formatter for displaying date/time to user */
-    private static final DateTimeFormatter outputFormatter =
-            DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
     /**
      * Constructs an Event task from the full command string.
@@ -40,34 +32,30 @@ public class Event extends Task {
         String[] fromSplit = input.split("/from", 2);
         String[] toSplit = input.split("/to", 2);
 
-        if (fromSplit.length < 2 || toSplit.length < 2) {
-            this.startParsed = null;
-            this.endParsed = null;
-            this.startRaw = "";
-            this.endRaw = "";
+        int endOfStartDate = fromSplit[1].indexOf("/");
+        String unparsedStartDate = fromSplit[1].substring(0, endOfStartDate).trim();
+
+        String unparsedEndDate = toSplit[1].trim();
+
+        LocalDateTime detectedStartDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
+        LocalDateTime detectedEndDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
+
+
+
+        if (detectedStartDateTime != null) {
+            startParsed = DateTimeHandler.formatDetectedDateTime(detectedStartDateTime);
+            startRaw = null;
         } else {
-            String startStr = fromSplit[1].split("/to", 2)[0].trim();
-            String endStr = toSplit[1].trim();
+            startParsed = null;
+            startRaw = unparsedStartDate;
+        }
 
-            LocalDateTime startDt;
-            LocalDateTime endDt;
-
-            try {
-                startDt = LocalDateTime.parse(startStr, inputFormatter);
-            } catch (DateTimeParseException e) {
-                startDt = null;
-            }
-
-            try {
-                endDt = LocalDateTime.parse(endStr, inputFormatter);
-            } catch (DateTimeParseException e) {
-                endDt = null;
-            }
-
-            this.startParsed = startDt;
-            this.endParsed = endDt;
-            this.startRaw = (startDt == null) ? startStr : null;
-            this.endRaw = (endDt == null) ? endStr : null;
+        if (detectedEndDateTime != null) {
+            endParsed = DateTimeHandler.formatDetectedDateTime(detectedEndDateTime);
+            endRaw = null;
+        } else {
+            endParsed = null;
+            endRaw = unparsedEndDate;
         }
     }
 
@@ -82,34 +70,28 @@ public class Event extends Task {
         String[] fromSplit = input.split("/from", 2);
         String[] toSplit = input.split("/to", 2);
 
-        if (fromSplit.length < 2 || toSplit.length < 2) {
-            this.startParsed = null;
-            this.endParsed = null;
-            this.startRaw = "";
-            this.endRaw = "";
+        int endOfStartDate = fromSplit[1].indexOf("/");
+        String unparsedStartDate = fromSplit[1].substring(0, endOfStartDate).trim();
+
+        String unparsedEndDate = toSplit[1].trim();
+
+        LocalDateTime detectedStartDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
+        LocalDateTime detectedEndDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
+
+        if (detectedStartDateTime != null) {
+            startParsed = DateTimeHandler.formatDetectedDateTime(detectedStartDateTime);
+            startRaw = null;
         } else {
-            String startStr = fromSplit[1].split("/to", 2)[0].trim();
-            String endStr = toSplit[1].trim();
+            startParsed = null;
+            startRaw = unparsedStartDate;
+        }
 
-            LocalDateTime startDt;
-            LocalDateTime endDt;
-
-            try {
-                startDt = LocalDateTime.parse(startStr, inputFormatter);
-            } catch (DateTimeParseException e) {
-                startDt = null;
-            }
-
-            try {
-                endDt = LocalDateTime.parse(endStr, inputFormatter);
-            } catch (DateTimeParseException e) {
-                endDt = null;
-            }
-
-            this.startParsed = startDt;
-            this.endParsed = endDt;
-            this.startRaw = (startDt == null) ? startStr : null;
-            this.endRaw = (endDt == null) ? endStr : null;
+        if (detectedEndDateTime != null) {
+            endParsed = DateTimeHandler.formatDetectedDateTime(detectedEndDateTime);
+            endRaw = null;
+        } else {
+            endParsed = null;
+            endRaw = unparsedEndDate;
         }
     }
 
@@ -142,8 +124,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        String startStr = (startParsed != null) ? startParsed.format(outputFormatter) : startRaw;
-        String endStr = (endParsed != null) ? endParsed.format(outputFormatter) : endRaw;
+        String startStr = (startParsed != null) ? startParsed: startRaw;
+        String endStr = (endParsed != null) ? endParsed : endRaw;
         return "[E]" + super.toString() + " (from: " + startStr + " to: " + endStr + ")";
     }
 
@@ -156,36 +138,10 @@ public class Event extends Task {
     @Override
     public String toCsvRow() {
         String status = getStatusIcon();
-        String labelPart = this.label.split("/from", 2)[0].trim();
 
-        String formattedStartDateTime = startParsed.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        boolean isStartParsedPresent = startParsed != null;
+        String startStr = (startParsed != null) ? startParsed: startRaw;
+        String endStr = (endParsed != null) ? endParsed : endRaw;
 
-        String startDateTimeStr = (isStartParsedPresent) ? formattedStartDateTime : startRaw;
-
-        String formattedEndDateTime = startParsed.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        boolean isEndParsedPresent = endParsed != null;
-
-        String endDateTimeStr = (isEndParsedPresent) ? formattedEndDateTime : endRaw;
-
-        return String.format("E,%s,%s,%s,%s", status, labelPart, startDateTimeStr, endDateTimeStr);
-    }
-
-    // Getter methods for start/end date/time
-
-    public LocalDateTime getStartParsed() {
-        return startParsed;
-    }
-
-    public LocalDateTime getEndParsed() {
-        return endParsed;
-    }
-
-    public String getStartRaw() {
-        return startRaw;
-    }
-
-    public String getEndRaw() {
-        return endRaw;
+        return String.format("E," + status + "," + label + " /from " + startStr + " /to " + endStr);
     }
 }

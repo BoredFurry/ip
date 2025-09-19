@@ -115,9 +115,4 @@ public class Ui {
     public String showFailuretoLoadTaskListError() {
         return "The file you have given me does not exist master, here's an empty list for this session";
     }
-
-
-    public String showHelp(String helpMessage) {
-        return helpMessage;
-    }
 }

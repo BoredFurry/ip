@@ -1,8 +1,7 @@
 package ryuji.task;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 /**
  * Represents a task with a deadline.
@@ -11,18 +10,11 @@ import java.time.format.DateTimeParseException;
 public class Deadline extends Task {
 
     /** Parsed date-time if input matches expected format; null otherwise. */
-    private final LocalDateTime parsedDateTime;
+    private final String parsedDateTime;
 
     /** Raw date-time string used as fallback if parsing fails or no standard format. */
     private final String rawDateTime;
 
-    /** Input formatter to parse date and optional time (time optional). */
-    private static final DateTimeFormatter inputFormatter =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd [HHmm]");
-
-    /** Output formatter to display the date in a user-friendly format. */
-    private static final DateTimeFormatter outputFormatter =
-            DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
     /**
      * Constructs a Deadline task from a command string.
@@ -33,20 +25,16 @@ public class Deadline extends Task {
     public Deadline(String input) {
         super(input.split("/by", 2)[0]);
         String[] parts = input.split("/by", 2);
+        String dateTimeString = parts[1].trim();
 
-        if (parts.length < 2) {
-            this.parsedDateTime = null;
-            this.rawDateTime = "";
+        LocalDateTime detectedDateTime = DateTimeHandler.getDateTime(dateTimeString);
+
+        if (detectedDateTime != null) {
+            parsedDateTime = DateTimeHandler.formatDetectedDateTime(detectedDateTime);
+            rawDateTime = null;
         } else {
-            String dateStr = parts[1].trim();
-            LocalDateTime dt = null;
-            try {
-                dt = LocalDateTime.parse(dateStr, inputFormatter);
-            } catch (DateTimeParseException e) {
-                // parsing failed, keep dt null
-            }
-            this.parsedDateTime = dt;
-            this.rawDateTime = (dt == null) ? dateStr : null;
+            parsedDateTime = null;
+            rawDateTime = dateTimeString;
         }
     }
 
@@ -59,20 +47,16 @@ public class Deadline extends Task {
     public Deadline(String input, boolean isMarked) {
         super(input.split("/by", 2)[0], isMarked);
         String[] parts = input.split("/by", 2);
+        String dateTimeString = parts[1].trim();
 
-        if (parts.length < 2) {
-            this.parsedDateTime = null;
-            this.rawDateTime = "";
+        LocalDateTime detectedDateTime = DateTimeHandler.getDateTime(dateTimeString);
+
+        if (detectedDateTime != null) {
+            parsedDateTime = DateTimeHandler.formatDetectedDateTime(detectedDateTime);
+            rawDateTime = null;
         } else {
-            String dateStr = parts[1].trim();
-            LocalDateTime dt = null;
-            try {
-                dt = LocalDateTime.parse(dateStr, inputFormatter);
-            } catch (DateTimeParseException e) {
-                // parsing failed
-            }
-            this.parsedDateTime = dt;
-            this.rawDateTime = (dt == null) ? dateStr : null;
+            parsedDateTime = null;
+            rawDateTime = dateTimeString;
         }
     }
 
@@ -100,14 +84,18 @@ public class Deadline extends Task {
     @Override
     public String toCsvRow() {
         String status = getStatusIcon();
-        String labelPart = this.label.split("/from", 2)[0].trim();
+        String labelPart = this.label.split("/by", 2)[0].trim();
+        String dateStr;
 
-        String formattedDateTime = parsedDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         boolean isDateTimePresent = parsedDateTime != null;
 
-        String dateStr = (isDateTimePresent) ? formattedDateTime : rawDateTime;
+        if (isDateTimePresent)  {
+            dateStr = parsedDateTime;
+        } else {
+            dateStr = rawDateTime;
+        }
 
-        return String.format("D,%s,%s,%s", status, labelPart, dateStr);
+        return String.format("D," + status + "," + labelPart + " /by" + dateStr);
     }
 
     /**
@@ -119,19 +107,9 @@ public class Deadline extends Task {
     public String toString() {
         if (parsedDateTime != null) {
             return "[D]" + super.toString() + " (by: "
-                    + parsedDateTime.format(outputFormatter) + ")";
+                    + parsedDateTime + ")";
         } else {
             return "[D]" + super.toString() + " (by: " + rawDateTime + ")";
         }
-    }
-
-    /** Returns the parsed LocalDateTime if available, else null. */
-    public LocalDateTime getParsedDateTime() {
-        return parsedDateTime;
-    }
-
-    /** Returns the raw date/time string if parsing failed or not provided. */
-    public String getRawDateTime() {
-        return rawDateTime;
     }
 }

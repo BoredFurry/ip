@@ -104,13 +104,13 @@ public abstract class Task {
         String label = row[2];
 
         switch (taskType) {
-        case "todo":
+        case "T":
             task = new ToDo(label, isMarked);
             break;
-        case "deadline":
+        case "D":
             task = new Deadline(label, isMarked);
             break;
-        case "event":
+        case "E":
             task = new Event(label, isMarked);
             break;
         default:

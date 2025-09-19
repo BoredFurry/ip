@@ -36,7 +36,7 @@ public class ToDo extends Task {
      */
     @Override
     public String toCsvRow() {
-        return "TODO," + getStatusIcon() + "," + this.label;
+        return "T," + getStatusIcon() + "," + this.label;
     }
 
     /**

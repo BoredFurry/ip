@@ -34,11 +34,11 @@ public class DeleteCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {
-        String message = tasks.deleteFromList(this.position);
+        String message = tasks.deleteFromList(position);
         try {
-            storage.updateFile(this.position);
+            storage.removeTaskFromFile(position);
         } catch (Exception e) {
-            return "There was an error trying to store your task list master: " + e.getMessage();
+            return "There was an error trying to remove your task master: " + e.getMessage();
         }
         return message;
     }

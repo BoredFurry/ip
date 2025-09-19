@@ -1,5 +1,7 @@
 package ryuji.ui;
 
+import ryuji.storage.Storage;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -31,12 +33,11 @@ public class MainWindow extends AnchorPane {
             .getClass().getResourceAsStream("/images/UserPFP.png"));
     private final Image ryujiImage = new Image(this.getClass()
             .getResourceAsStream("/images/RyujiPFP.png"));
-    private final Image backgroundImage = new Image(this
-            .getClass().getResourceAsStream("/images/background.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+        dialogContainer.getChildren().addAll(DialogBox.getRyujiDialog(Ui.showWelcome(), ryujiImage));
         dialogContainer.getChildren().addAll(DialogBox.getRyujiDialog(Ui.showWelcome(), ryujiImage));
     }
 

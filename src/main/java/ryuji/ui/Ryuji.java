@@ -13,7 +13,7 @@ public class Ryuji {
     private Parser parser = new Parser();
     private Storage storage;
     private TaskList tasks;
-    private Ui ui;
+    private Ui ui = new Ui();
     private String response;
 
     /**
@@ -24,7 +24,6 @@ public class Ryuji {
      * @param filePath the file path to the storage file where tasks are saved
      */
     public Ryuji(String filePath) {
-        this.ui = new Ui();
         this.storage = new Storage(filePath);
         try {
             this.tasks = new TaskList(this.storage.readFile());
@@ -34,7 +33,15 @@ public class Ryuji {
         }
     }
 
-    public Ryuji() {}
+    public Ryuji() {
+        this.storage = new Storage("tasks.csv");
+        try {
+            this.tasks = new TaskList(this.storage.readFile());
+        } catch (Exception e) {
+            this.ui.showFailuretoLoadTaskListError();
+            this.tasks = new TaskList();
+        }
+    }
 
     /**
      * Starts the chatbot application.
