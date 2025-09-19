@@ -1,6 +1,6 @@
 # Ryuji User Guide
 
-![Screenshoot of GUI for Ryuji](docs/Ui.png)
+![Screenshoot of GUI for Ryuji](https://BoredFurry.github.io/ip/Ui.png)
 
 # Ryuji - A Task Management Chatbot
 
@@ -41,7 +41,7 @@ Ryuji supports the following commands:
 
 - **IDE**: You can use any Java IDE, such as IntelliJ IDEA, Eclipse, or Visual Studio Code, but this project has been built with Intellij in mind.
 
-### Clone the Repository
+### 1. Clone the Repository
 
 To clone the repository and set up the project locally:
 
@@ -50,6 +50,15 @@ git clone https://github.com/your-username/ryuji.git
 cd ryuji
 
 ```
+### 2. Install Jar file
+
+If you don't want to build the application from source, you can download a pre-built **JAR file** (Java Archive) for this application. The JAR file contains all the necessary code and dependencies to run the application.
+
+1. Go to the [releases page](https://github.com/BoredFurry/ip/releases) of the project (replace with actual URL).
+2. Download the latest release `.jar` file (e.g., `ryuji-chatbot-1.0.jar`).
+3. Save the `.jar` file to a directory on your machine where you can easily access it.
+
+---
 ## Build and Run
 
 ### 1. Import into your IDE or Build from Command Line
@@ -59,11 +68,61 @@ cd ryuji
 
 ### 2. Running the Application
 
-#### Using Gradle
+### Using Gradle
 
-If you have **Gradle** installed on your machine, you can build and run the project using the following step:
-- In the terminal, at the directory of the file, run "./gradlew run"
+1. **Clone the repository** or download the source code.
 
+   If you are using Git, clone the repository:
+    ```bash
+    git clone https://github.com/BoredFurry/ip.git
+    cd ip
+    ```
+
+2. **Build the application** using Gradle.
+
+   If you don't have Gradle installed, use the **Gradle Wrapper** to build the project:
+    ```bash
+    ./gradlew build
+    ```
+
+   On **Windows**:
+    ```bash
+    gradlew.bat build
+    ```
+
+   This will compile the code, run tests, and generate the JAR file. After building, you will find the JAR file in the `build/libs` directory (e.g., `build/libs/ryuji-chatbot-1.0.jar`).
+
+3. **Run the application** using the following command:
+    ```bash
+    java -jar build/libs/ip.jar
+    ```
+
+4. **Interacting with the chatbot**: Once the application is running, a GUI window will open, and you can interact with the chatbot as described in the [Usage](#usage) section.
+
+---
+
+### Using the JAR File
+
+If you downloaded the JAR file from the releases page, you can run it directly without needing to build the project.
+
+1. **Download the JAR file** (as described in the [Setup](#setup) section).
+2. Open a terminal or command prompt and navigate to the directory where the JAR file is located.
+3. Run the application with the following command:
+    ```bash
+    java -jar ryuji-chatbot-1.0.jar
+    ```
+
+4. **Interacting with the chatbot**: Once the application is running, a GUI window will open, and you can interact with the chatbot as described in the [Usage](#usage) section.
+
+---
+
+### Notes on Running the JAR File
+
+- When running the JAR file, make sure that you have **Java 11** or higher installed on your system.
+- If you are running into any issues related to Java versions, please ensure your environment variable `JAVA_HOME` is set correctly.
+- If you encounter any issues running the JAR file, you may want to check the logs or console output for any error messages. You can try troubleshooting by checking your Java version or dependencies.
+
+---
 ### 3. Task Storage
 
 - The application will automatically create a `tasks.csv` file if it doesn't already exist. This file will store all the tasks you add through the bot.
