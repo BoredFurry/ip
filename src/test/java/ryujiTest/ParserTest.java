@@ -38,4 +38,11 @@ public class ParserTest {
 
         assertEquals(parser.parse("unmark 2"), new UnmarkCommand("unmmark", 2));
     }
+
+    @Test
+    void parseInvalidShouldGiveNull() {
+        Parser parser = new Parser();
+
+        assertNull(parser.parse("bad input"));
+    }
 }

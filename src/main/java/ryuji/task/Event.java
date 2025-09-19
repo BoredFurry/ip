@@ -1,17 +1,20 @@
 package ryuji.task;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
- * Represents an event task with start and end date/time.
- * Supports flexible date/time input in the format "yyyy-MM-dd" or "yyyy-MM-dd HHmm".
+ * Represents an event task with a start and end date/time.
+ * <p>Event tasks represent events that occur at a specific time range, with a start date/time and an end date/time.
+ * This class handles parsing and formatting flexible date/time input, supporting formats such as "yyyy-MM-dd"
+ * or "yyyy-MM-dd HHmm".</p>
  */
 public class Event extends Task {
+
     /** Parsed start date-time, or null if parsing fails */
-    private final String startParsed;
+    private final LocalDate startParsed;
 
     /** Parsed end date-time, or null if parsing fails */
-    private final String endParsed;
+    private final LocalDate endParsed;
 
     /** Raw start date/time string, fallback if parsing fails */
     private final String startRaw;
@@ -21,7 +24,7 @@ public class Event extends Task {
 
     /**
      * Constructs an Event task from the full command string.
-     * Example input: "event party /from 2019-12-02 1800 /to 2019-12-02 2000"
+     * <p>Example input: "event party /from 2019-12-02 1800 /to 2019-12-02 2000"</p>
      *
      * @param input the full input string including event description and times
      */
@@ -35,13 +38,11 @@ public class Event extends Task {
 
         String unparsedEndDate = toSplit[1].trim();
 
-        LocalDateTime detectedStartDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
-        LocalDateTime detectedEndDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
-
-
+        LocalDate detectedStartDateTime = DateTimeHandler.getDate(unparsedStartDate);
+        LocalDate detectedEndDateTime = DateTimeHandler.getDate(unparsedStartDate);
 
         if (detectedStartDateTime != null) {
-            startParsed = DateTimeHandler.formatDetectedDateTime(detectedStartDateTime);
+            startParsed = detectedStartDateTime;
             startRaw = null;
         } else {
             startParsed = null;
@@ -49,7 +50,7 @@ public class Event extends Task {
         }
 
         if (detectedEndDateTime != null) {
-            endParsed = DateTimeHandler.formatDetectedDateTime(detectedEndDateTime);
+            endParsed = detectedEndDateTime;
             endRaw = null;
         } else {
             endParsed = null;
@@ -58,7 +59,8 @@ public class Event extends Task {
     }
 
     /**
-     * Constructs an Event task with mark status from the full command string.
+     * Constructs an Event task with a marked status from the full command string.
+     * <p>This constructor allows you to set the task's status (marked or not) directly.</p>
      *
      * @param input    the full input string including event description and times
      * @param isMarked true if task is marked done, false otherwise
@@ -73,11 +75,11 @@ public class Event extends Task {
 
         String unparsedEndDate = toSplit[1].trim();
 
-        LocalDateTime detectedStartDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
-        LocalDateTime detectedEndDateTime = DateTimeHandler.getDateTime(unparsedStartDate);
+        LocalDate detectedStartDateTime = DateTimeHandler.getDate(unparsedStartDate);
+        LocalDate detectedEndDateTime = DateTimeHandler.getDate(unparsedStartDate);
 
         if (detectedStartDateTime != null) {
-            startParsed = DateTimeHandler.formatDetectedDateTime(detectedStartDateTime);
+            startParsed = detectedStartDateTime;
             startRaw = null;
         } else {
             startParsed = null;
@@ -85,7 +87,7 @@ public class Event extends Task {
         }
 
         if (detectedEndDateTime != null) {
-            endParsed = DateTimeHandler.formatDetectedDateTime(detectedEndDateTime);
+            endParsed = detectedEndDateTime;
             endRaw = null;
         } else {
             endParsed = null;
@@ -95,6 +97,8 @@ public class Event extends Task {
 
     /**
      * Checks if the event has valid start and end date/time.
+     * <p>This method checks if both the start and end times have been correctly parsed or provided as raw strings.
+     * The event is considered valid if it has either valid parsed date/time or raw date/time for both start and end times.</p>
      *
      * @return true if both start and end times are valid (parsed or raw)
      */
@@ -117,19 +121,32 @@ public class Event extends Task {
 
     /**
      * Returns a user-friendly string representation of the event.
+     * <p>The task string will include the event's status, description, start date/time, and end date/time.</p>
      *
      * @return string formatted as "[E]<task info> (from: start to: end)"
      */
     @Override
     public String toString() {
-        String startStr = (startParsed != null) ? startParsed: startRaw;
-        String endStr = (endParsed != null) ? endParsed : endRaw;
+        String startStr;
+        if (startParsed != null) {
+            startStr = DateTimeHandler.formatDetectedDate(startParsed);
+        } else {
+            startStr = startRaw;
+        }
+
+        String endStr;
+        if (endParsed != null) {
+            endStr = DateTimeHandler.formatDetectedDate(endParsed);
+        } else {
+            endStr = endRaw;
+        }
+
         return "[E]" + super.toString() + " (from: " + startStr + " to: " + endStr + ")";
     }
 
     /**
-     * Returns a CSV row string representing this event.
-     * Adjust this method to fit your CSV format.
+     * Returns a CSV row string representing this event task.
+     * <p>The format for the CSV representation is: "E | status | label | start date/time | end date/time".</p>
      *
      * @return CSV formatted string of this event task
      */
@@ -137,8 +154,19 @@ public class Event extends Task {
     public String toCsvRow() {
         String status = getStatusIcon();
 
-        String startStr = (startParsed != null) ? startParsed: startRaw;
-        String endStr = (endParsed != null) ? endParsed : endRaw;
+        String startStr;
+        if (startParsed != null) {
+            startStr = DateTimeHandler.formatDetectedDate(startParsed);
+        } else {
+            startStr = startRaw;
+        }
+
+        String endStr;
+        if (endParsed != null) {
+            endStr = DateTimeHandler.formatDetectedDate(endParsed);
+        } else {
+            endStr = endRaw;
+        }
 
         return String.format("E," + status + "," + label + " /from " + startStr + " /to " + endStr);
     }

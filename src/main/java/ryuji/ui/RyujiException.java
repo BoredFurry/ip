@@ -15,4 +15,9 @@ public class RyujiException extends Exception {
     public RyujiException(String message) {
         super(message);
     }
+
+    @Override
+    public String getMessage() {
+        return "I didn't understand your instructions master: " + super.getMessage();
+    }
 }
