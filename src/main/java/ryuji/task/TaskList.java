@@ -5,8 +5,17 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Represents a list of {@link Task} objects with operations
- * to add, delete, mark, unmark, filter, and search tasks.
+ * Represents a list of {@link Task} objects with operations to add, delete, mark,
+ * unmark, filter, and search tasks.
+ * <p>The {@code TaskList} provides various functionalities to manage a collection
+ * of tasks, including:</p>
+ * <ul>
+ *   <li>Adding a new task to the list</li>
+ *   <li>Deleting a task by its index</li>
+ *   <li>Marking or unmarking tasks as completed</li>
+ *   <li>Searching for tasks based on a label</li>
+ *   <li>Displaying all tasks in the list with their respective status</li>
+ * </ul>
  */
 public class TaskList {
 
@@ -17,6 +26,7 @@ public class TaskList {
 
     /**
      * Constructs an empty {@code TaskList}.
+     * <p>This constructor initializes the task list as an empty list.</p>
      */
     public TaskList() {
         this.tasks = new ArrayList<>();
@@ -32,15 +42,19 @@ public class TaskList {
     }
 
     /**
-     * Adds a valid task to the list. If the task is invalid,
-     * it will not be added and a message will be printed.
+     * Adds a valid task to the list. If the task is invalid, it will not be added
+     * and an error message will be returned.
+     * <p>This method checks if the task is valid by calling its {@code checkValid()}
+     * method. If valid, the task is added to the list and a success message is returned;
+     * otherwise, an error message is returned.</p>
      *
      * @param item the task to add
+     * @return a message indicating success or failure
      */
     public String addToList(Task item) {
         if (item.checkValid()) {
             tasks.add(item);
-            return "I have added the following task form your task list master: " + item;
+            return "I have added the following task from your task list master: " + item;
         } else {
             return "I am unable to add that task to your list master for it is in the wrong format";
         }
@@ -48,23 +62,27 @@ public class TaskList {
 
     /**
      * Deletes a task at the specified 1-based index.
-     * If the index is out of bounds, an error message is printed.
+     * <p>If the index is out of bounds, an error message is returned. If valid,
+     * the task is removed and a success message is returned.</p>
      *
      * @param index the 1-based index of the task to delete
+     * @return a message indicating success or failure
      */
     public String deleteFromList(int index) {
         if (index < 1 || index > tasks.size()) {
             return "Master I can't find that item in your list";
         }
         Task removed = tasks.remove(index - 1);
-        return "I have removed the following task form your task list master: " + removed;
+        return "I have removed the following task from your task list master: " + removed;
     }
 
     /**
      * Marks the task at the specified 1-based index as completed.
-     * If the index is out of bounds, an error message is printed.
+     * <p>If the index is out of bounds, an error message is returned. If valid,
+     * the task is marked and a success message is returned.</p>
      *
      * @param index the 1-based index of the task to mark as done
+     * @return a message indicating success or failure
      */
     public String mark(int index) {
         if (index < 1 || index > tasks.size()) {
@@ -76,9 +94,11 @@ public class TaskList {
 
     /**
      * Unmarks the task at the specified 1-based index as not completed.
-     * If the index is out of bounds, an error message is printed.
+     * <p>If the index is out of bounds, an error message is returned. If valid,
+     * the task is unmarked and a success message is returned.</p>
      *
      * @param index the 1-based index of the task to unmark
+     * @return a message indicating success or failure
      */
     public String unmark(int index) {
         if (index < 1 || index > tasks.size()) {
@@ -89,8 +109,11 @@ public class TaskList {
     }
 
     /**
-     * Finds and returns a new {@code TaskList} containing tasks
-     * whose labels match the given search term.
+     * Finds and returns a new {@code TaskList} containing tasks whose labels match the
+     * given search term.
+     * <p>This method iterates through all tasks in the list and adds those whose labels
+     * contain the given search term to a new list. A new {@code TaskList} object is
+     * returned containing the matching tasks.</p>
      *
      * @param searchTerm the keyword to search for in task descriptions or labels
      * @return a {@code TaskList} of matching tasks
@@ -107,7 +130,9 @@ public class TaskList {
 
     /**
      * Returns a string representation of all tasks in the list.
-     * Tasks are numbered starting from 1.
+     * <p>Tasks are numbered starting from 1, and each task is formatted using its
+     * {@code toString()} method. The list is prefixed with a header indicating the
+     * user's task list.</p>
      *
      * @return a formatted string listing all tasks
      */

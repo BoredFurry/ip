@@ -6,10 +6,9 @@ import ryuji.ui.Ui;
 
 /**
  * Represents a command that displays help information to the user.
- * This command is used to explain the different types of tasks (ToDo, Deadline, Event)
- * and the supported commands in the Ryuji task management system.
- *
- * When executed, it displays a guide containing examples of usage for each command.
+ * <p>This command provides an overview of the different task types (ToDo, Deadline, Event) and
+ * the supported commands in the Ryuji task management system.</p>
+ * <p>When executed, it displays a guide containing examples of usage for each command available in the application.</p>
  */
 public class HelpCommand extends Command {
 
@@ -18,7 +17,7 @@ public class HelpCommand extends Command {
      * and examples of commands that the user can use.
      */
     private final String HELPMESSAGE = "Welcome to RyujiCafe, here is the menu:\n" +
-            "In this cafe, you can keep track of tasks to that you can focus on doing them\n" +
+            "In this cafe, you can keep track of tasks so that you can focus on doing them\n" +
             "Types of tasks I can assist with:\n" +
             "ToDos\n" +
             "    type: todo make coffee\n" +
@@ -38,7 +37,7 @@ public class HelpCommand extends Command {
             "    result: [T][X] return book -> [T][ ] return book\n\n" +
             "List\n" +
             "    type: list\n" +
-            "     result:\n" +
+            "    result:\n" +
             "    1. [T][ ] make coffee\n" +
             "    2. [D][ ] return book (by 2025-09-15 1600)\n" +
             "    3. [E][ ] JMOF (from 2026-01-09 to 2026-01-11)\n\n" +
@@ -54,9 +53,9 @@ public class HelpCommand extends Command {
             "Go ahead and try some of these commands";
 
     /**
-     * Constructs a HelpCommand with the given raw command string.
+     * Constructs a {@code HelpCommand} with the given raw command string.
      *
-     * @param command The raw user input that triggered this command.
+     * @param command the raw user input that triggered this command
      */
     public HelpCommand(String command) {
         super(command);
@@ -66,9 +65,10 @@ public class HelpCommand extends Command {
      * Executes the help command by displaying the help message through the UI.
      * This method does not modify the task list or the storage.
      *
-     * @param tasks   The current task list (unused in this command).
-     * @param ui      The UI instance used to display messages to the user.
-     * @param storage The storage instance (unused in this command).
+     * @param tasks   the current {@code TaskList} (not used in this command)
+     * @param ui      the {@code Ui} instance used to display messages to the user
+     * @param storage the {@code Storage} instance (not used in this command)
+     * @return the help message that provides usage instructions for various commands
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {

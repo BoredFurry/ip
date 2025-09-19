@@ -6,6 +6,7 @@ import ryuji.ui.Ui;
 
 /**
  * Represents a command to delete a task from the task list.
+ * This command is responsible for removing a task from the task list and updating the persistent storage.
  */
 public class DeleteCommand extends Command {
 
@@ -13,10 +14,12 @@ public class DeleteCommand extends Command {
     private final int position;
 
     /**
-     * Constructs a {@code DeleteCommand} with the specified command and task position.
+     * Constructs a {@code DeleteCommand} with the specified command and the position of the task to delete.
+     * The position is a 1-based index representing the task's position in the list.
      *
      * @param command  the command keyword (typically "delete")
-     * @param position the position of the task to delete (1-based index)
+     * @param position the 1-based position of the task to delete
+     * @throws AssertionError if the position is less than or equal to 0
      */
     public DeleteCommand(String command, int position) {
         super(command);
@@ -25,12 +28,15 @@ public class DeleteCommand extends Command {
     }
 
     /**
-     * Executes the delete command by removing the specified task from the task list
-     * and updating the storage file accordingly.
+     * Executes the delete command by removing the task at the specified position from the task list
+     * and updating the storage file to reflect the change.
      *
-     * @param tasks   the current {@code TaskList}
-     * @param ui      the {@code Ui} used for user interaction
-     * @param storage the {@code Storage} responsible for saving task data
+     * <p>If an error occurs during the deletion from storage, a message is returned indicating the failure.</p>
+     *
+     * @param tasks   the current {@code TaskList} containing all tasks
+     * @param ui      the {@code Ui} component used for user interaction
+     * @param storage the {@code Storage} component responsible for managing persistent data
+     * @return a message indicating the result of the deletion (success or failure)
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {

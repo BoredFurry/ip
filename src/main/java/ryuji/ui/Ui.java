@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 /**
  * The {@code Ui} class handles all interactions with the user.
- * It is responsible for displaying messages, reading input, and showing task-related outputs.
+ * <p>This class is responsible for displaying messages to the user, reading input from the user, and showing outputs related to tasks such as the task list, errors, and greetings.</p>
  */
 public class Ui {
 
@@ -41,6 +41,8 @@ public class Ui {
 
     /**
      * Displays the welcome message and logo when the application starts.
+     *
+     * @return the formatted welcome message with the logo
      */
     public static String showWelcome() {
         return LINE + "\n" + LOGO + "\n" + GREETING + "\n" + LINE;
@@ -48,6 +50,8 @@ public class Ui {
 
     /**
      * Displays a horizontal divider line to separate console output.
+     *
+     * @return a string containing the divider line
      */
     public String showLine() {
         return this.LINE;
@@ -55,6 +59,8 @@ public class Ui {
 
     /**
      * Displays a farewell message when the user exits the application.
+     *
+     * @return the farewell message
      */
     public String showFarewell() {
         return this.FAREWELL;
@@ -64,6 +70,7 @@ public class Ui {
      * Displays the current list of tasks to the user.
      *
      * @param tasks the {@code TaskList} containing all tasks to be displayed
+     * @return a string representation of the task list
      */
     public String displayTaskList(TaskList tasks) {
         return tasks.toString();
@@ -82,35 +89,17 @@ public class Ui {
      * Displays an error message to the user.
      *
      * @param exception the error message to be shown
+     * @return the error message wrapped in a {@code RyujiException}
      */
     public String showError(String exception) {
         return new RyujiException(exception).getMessage();
     }
 
     /**
-     * Displays a confirmation message when a task is added to the task list.
-     */
-    public String showTaskAdded() {
-        return "I've added the task to your tasklist master";
-    }
-
-    /**
-     * Displays a confirmation message when a task is unmarked (marked as not done).
-     */
-    public String showTaskUnmarked() {
-        return "I have unmarked the item for you master";
-    }
-
-    /**
-     * Displays a confirmation message when a task is marked as done.
-     */
-    public String showTaskMarked() {
-        return "I've marked the item as done for you master";
-    }
-
-    /**
      * Displays an error message when the task list fails to load from file.
      * An empty list will be initialized in this case.
+     *
+     * @return the error message indicating task list loading failure
      */
     public String showFailuretoLoadTaskListError() {
         return "The file you have given me does not exist master, here's an empty list for this session";

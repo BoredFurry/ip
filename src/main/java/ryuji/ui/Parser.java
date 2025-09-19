@@ -18,8 +18,10 @@ import java.util.Set;
 /**
  * The {@code Parser} class is responsible for interpreting user input
  * and converting it into executable {@link Command} objects.
- * It supports various commands such as "list", "todo", "deadline", "event",
- * "mark", "unmark", "delete", "find", "help" and "bye".
+ * <p>It supports various commands such as "list", "todo", "deadline", "event",
+ * "mark", "unmark", "delete", "find", "help" and "bye". Each command is parsed
+ * and converted into the corresponding {@code Command} object, which can then be executed
+ * by the application.</p>
  */
 public class Parser {
 
@@ -29,14 +31,20 @@ public class Parser {
     /**
      * Parses the raw user input and returns the corresponding {@link Command} object.
      *
+     * <p>This method first extracts the command keyword from the user input,
+     * then matches it to the appropriate {@code Command} object. If the command is valid,
+     * a new {@code Command} object is returned. If the command is unrecognized or invalid,
+     * an exception is thrown.</p>
+     *
      * @param input the user input string
-     * @return the corresponding {@code Command} object, or {@code null} if the command is not recognized
-     * @throws IllegalStateException if the command keyword is unexpected
-     * @throws IndexOutOfBoundsException or NumberFormatException if parsing fails
+     * @return the corresponding {@code Command} object
+     * @throws IllegalStateException     if the command keyword is unexpected or unrecognized
+     * @throws IndexOutOfBoundsException if there are issues parsing command arguments
+     * @throws NumberFormatException     if the position or task details are malformed
      */
     public Command parse(String input) {
         Command command;
-        String commandString = parseCommand(input.toLowerCase());
+        String commandString = parseCommand(input.toLowerCase());  // Extract the command keyword
         switch (commandString) {
         case "list":
             command = new ListCommand(commandString);
@@ -73,9 +81,9 @@ public class Parser {
         }
 
         if (this.checkCommandExists(commandString)) {
-            return command;
+            return command;  // Return the command if it's valid
         } else {
-            return null;
+            return null;  // Return null if the command doesn't exist
         }
     }
 
@@ -119,7 +127,7 @@ public class Parser {
      *
      * @param input the full input string
      * @return the task position as an integer
-     * @throws NumberFormatException if the number is not valid
+     * @throws NumberFormatException          if the number is not valid
      * @throws ArrayIndexOutOfBoundsException if no number is provided
      */
     private int parsePosition(String input) {

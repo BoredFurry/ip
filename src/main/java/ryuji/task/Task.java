@@ -2,12 +2,14 @@ package ryuji.task;
 
 /**
  * Abstract base class representing a generic task item.
- * This class provides the core functionality for all task types, including:
- * - Status tracking (marked/unmarked)
- * - Label handling
- * - CSV conversion for storage
- * Concrete subclasses such as {@code ToDo}, {@code Deadline}, and {@code Event}
- * should extend this class and implement specific validation and data serialization logic.
+ * <p>This class provides the core functionality for all task types, including:</p>
+ * <ul>
+ *   <li>Status tracking (marked/unmarked)</li>
+ *   <li>Label handling</li>
+ *   <li>CSV conversion for storage</li>
+ * </ul>
+ * <p>Concrete subclasses such as {@code ToDo}, {@code Deadline}, and {@code Event}
+ * should extend this class and implement specific validation and data serialization logic.</p>
  */
 public abstract class Task {
 
@@ -43,7 +45,7 @@ public abstract class Task {
 
     /**
      * Checks whether the task is valid.
-     * This method must be implemented by subclasses to perform type-specific validation.
+     * <p>This method must be implemented by subclasses to perform type-specific validation.</p>
      *
      * @return {@code true} if the task is valid; {@code false} otherwise
      */
@@ -65,6 +67,7 @@ public abstract class Task {
 
     /**
      * Returns the status icon for the task.
+     * <p>The icon will be "X" if the task is marked as completed; otherwise, a space character " " will be returned.</p>
      *
      * @return "X" if the task is completed; otherwise, a space character " "
      */
@@ -75,7 +78,7 @@ public abstract class Task {
     /**
      * Checks whether the task's label contains the specified search term.
      *
-     * @param searchTerm the keyword to search for
+     * @param searchTerm the keyword to search for in the label
      * @return {@code true} if the label contains the search term; {@code false} otherwise
      */
     public boolean checkLabel(String searchTerm) {
@@ -84,15 +87,15 @@ public abstract class Task {
 
     /**
      * Converts the task to a CSV-compatible string array for persistent storage.
-     * This method must be implemented by subclasses to include task-specific fields.
+     * <p>This method must be implemented by subclasses to include task-specific fields (e.g., dates, description).</p>
      *
-     * @return a string array representing the task's fields
+     * @return a string array representing the task's fields, formatted for CSV storage
      */
     public abstract String toCsvRow();
 
     /**
      * Creates a {@code Task} object from a CSV row.
-     * The first element of the row should indicate the task type: "todo", "deadline", or "event".
+     * <p>The first element of the row should indicate the task type: "T" for ToDo, "D" for Deadline, or "E" for Event.</p>
      *
      * @param row the CSV row containing the task data
      * @return a {@code Task} object reconstructed from the row; or {@code null} if the type is invalid
@@ -121,8 +124,9 @@ public abstract class Task {
 
     /**
      * Returns a string representation of the task, including its status icon and label.
+     * <p>This method generates a simple string like: "[X] Task description" where X represents the completion status.</p>
      *
-     * @return the formatted string representing the task
+     * @return the formatted string representing the task, including its status icon and label
      */
     @Override
     public String toString() {

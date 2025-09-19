@@ -1,11 +1,11 @@
 package ryuji.task;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
 
 /**
  * Represents a task with a deadline.
- * Supports flexible date/time input in the format "yyyy-MM-dd" or "yyyy-MM-dd HHmm".
+ * <p>Deadline tasks have a specific due date and time, and this class handles parsing and formatting
+ * flexible date/time input. The supported formats include "yyyy-MM-dd" and "yyyy-MM-dd HHmm".</p>
  */
 public class Deadline extends Task {
 
@@ -15,10 +15,9 @@ public class Deadline extends Task {
     /** Raw date-time string used as fallback if parsing fails or no standard format. */
     private final String rawDateTime;
 
-
     /**
      * Constructs a Deadline task from a command string.
-     * Example input: "deadline return book /by 2019-12-02 1800"
+     * <p>Example input: "deadline return book /by 2019-12-02 1800"</p>
      *
      * @param input the full command string including the deadline date/time
      */
@@ -39,10 +38,11 @@ public class Deadline extends Task {
     }
 
     /**
-     * Constructs a Deadline task with mark status from a command string.
+     * Constructs a Deadline task with a mark status from a command string.
+     * <p>This constructor allows setting the task's marked status directly.</p>
      *
      * @param input    the full command string including the deadline date/time
-     * @param isMarked true if the task is marked done, false otherwise
+     * @param isMarked true if the task is marked as done, false otherwise
      */
     public Deadline(String input, boolean isMarked) {
         super(input.split("/by", 2)[0], isMarked);
@@ -62,8 +62,9 @@ public class Deadline extends Task {
 
     /**
      * Checks if this deadline task has a valid date/time (either parsed or raw).
+     * <p>This method ensures that the deadline has a valid date-time string or a fallback raw string.</p>
      *
-     * @return true if the deadline has valid date or non-empty raw date string
+     * @return true if the deadline has a valid date or non-empty raw date string
      */
     @Override
     boolean checkValid() {
@@ -77,7 +78,7 @@ public class Deadline extends Task {
 
     /**
      * Returns a CSV row string representing this task.
-     * Format suggestion: "D | status | label | date/time"
+     * <p>The format for the CSV representation is: "D | status | label | date/time".</p>
      *
      * @return CSV formatted string of this task
      */
@@ -95,11 +96,12 @@ public class Deadline extends Task {
             dateStr = rawDateTime;
         }
 
-        return String.format("D," + status + "," + labelPart + " /by" + dateStr);
+        return String.format("D," + status + "," + labelPart + " /by " + dateStr);
     }
 
     /**
      * Returns a user-friendly string representation of this deadline task.
+     * <p>The task string will include the task's status, description, and the deadline date/time.</p>
      *
      * @return formatted string including deadline date/time
      */

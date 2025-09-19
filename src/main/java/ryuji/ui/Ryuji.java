@@ -6,8 +6,10 @@ import ryuji.task.TaskList;
 
 /**
  * The {@code Ryuji} class serves as the main entry point for the Ryuji chatbot application.
- * It is responsible for initializing the user interface, task list, storage, and parser.
- * The chatbot reads user input in a loop, parses commands, and executes them accordingly.
+ * <p>This class is responsible for initializing the user interface, task list, storage, and parser.
+ * It manages the core logic of the chatbot by reading user input in a loop, parsing commands,
+ * and executing them accordingly.
+ * It interacts with the task list to modify tasks, and it communicates with the user through the user interface.</p>
  */
 public class Ryuji {
     private Parser parser = new Parser();
@@ -18,8 +20,10 @@ public class Ryuji {
 
     /**
      * Constructs a {@code Ryuji} instance with the specified file path for storage.
-     * It attempts to load existing tasks from the given file. If loading fails,
-     * it initializes an empty task list and notifies the user.
+     * <p>This constructor initializes the storage using the provided file path.
+     * It attempts to read and load existing tasks from the file.
+     * If loading the tasks fails (e.g., due to an invalid file format or missing file),
+     * it initializes an empty task list and notifies the user of the failure.</p>
      *
      * @param filePath the file path to the storage file where tasks are saved
      */
@@ -33,6 +37,11 @@ public class Ryuji {
         }
     }
 
+    /**
+     * Constructs a {@code Ryuji} instance with a default storage file ("tasks.csv").
+     * <p>If no file path is provided, this constructor will attempt to load tasks from the default storage file.
+     * If loading fails, it initializes an empty task list and notifies the user.</p>
+     */
     public Ryuji() {
         this.storage = new Storage("tasks.csv");
         try {
@@ -45,9 +54,10 @@ public class Ryuji {
 
     /**
      * Starts the chatbot application.
-     * Displays a welcome message, then enters a loop to continuously read, parse,
+     * <p>This method displays a welcome message, then enters a loop to continuously read, parse,
      * and execute user commands until the exit command is received.
-     * Shows error messages and a farewell message as appropriate.
+     * It handles error messages, displays feedback to the user,
+     * and ensures that the user can interact with the chatbot until they choose to exit.</p>
      */
     public void run() {
         boolean isExit = false;
@@ -66,9 +76,14 @@ public class Ryuji {
         }
     }
 
-
     /**
      * Generates a response for the user's chat message.
+     * <p>This method is invoked when the user sends an input to the chatbot in the GUI.
+     * It parses the input, executes the corresponding command, and returns the chatbot's response.
+     * It also handles any exceptions that occur during the parsing or command execution.</p>
+     *
+     * @param input the user input string
+     * @return the chatbot's response as a string
      */
     public String getResponse(String input) {
         try {
@@ -81,6 +96,9 @@ public class Ryuji {
 
     /**
      * Main method that launches the Ryuji chatbot application.
+     * <p>This method is the entry point when running the application.
+     * It initializes the {@code Ryuji} instance with the default storage
+     * file "tasks.csv" and starts the chatbot by calling the {@code run} method.</p>
      *
      * @param args command-line arguments (not used)
      */

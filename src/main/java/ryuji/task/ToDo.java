@@ -2,27 +2,38 @@ package ryuji.task;
 
 /**
  * Represents a simple to-do task without any dates.
+ * <p>The {@code ToDo} class is a concrete subclass of the {@code Task} class. It
+ * represents tasks that don't require any specific date or time to be specified.
+ * The primary characteristic of a {@code ToDo} task is that it has only a label (description)
+ * and a completion status (marked or unmarked).</p>
  */
 public class ToDo extends Task {
 
     /**
-     * Constructs a Ryuji.ToDo task.
+     * Constructs a {@code ToDo} task with the specified label.
      *
-     * @param label the task label.
+     * @param label the task label or description
      */
     public ToDo(String label) {
         super(label);
     }
 
+    /**
+     * Constructs a {@code ToDo} task with the specified label and completion status.
+     *
+     * @param label  the task label or description
+     * @param isMarked the completion status (true if completed, false otherwise)
+     */
     public ToDo(String label, boolean isMarked) {
         super(label, isMarked);
     }
 
-
     /**
-     * Checks if the task is valid (must contain at least one space).
+     * Checks if the task is valid. A valid task must contain at least one word.
+     * <p>This validation is done by ensuring that the task label contains at least one space.
+     * If there is no space, it is considered invalid (empty label or only a single word).</p>
      *
-     * @return true if valid, false otherwise.
+     * @return {@code true} if the task label contains at least one space, {@code false} otherwise.
      */
     @Override
     boolean checkValid() {
@@ -30,9 +41,11 @@ public class ToDo extends Task {
     }
 
     /**
-     * Converts this Ryuji.ToDo task to a CSV row.
+     * Converts this {@code ToDo} task to a CSV-compatible string format.
+     * <p>The CSV format is as follows: "T,[status icon],label". The status icon is
+     * "X" if the task is marked, otherwise a space character " ".</p>
      *
-     * @return a String array representing the task.
+     * @return a CSV string representing the task
      */
     @Override
     public String toCsvRow() {
@@ -40,9 +53,11 @@ public class ToDo extends Task {
     }
 
     /**
-     * Returns a string representation of the Ryuji.ToDo task.
+     * Returns a string representation of this {@code ToDo} task.
+     * <p>The string format is: "[T][status icon] label", where the status icon is either
+     * "X" (completed) or a space " " (incomplete), and the label is the task description.</p>
      *
-     * @return formatted string.
+     * @return the formatted string representation of the task
      */
     @Override
     public String toString() {
