@@ -89,7 +89,6 @@ public class MainWindow extends AnchorPane {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-
                     System.exit(1);  // Exit after 5 seconds
                     timer.cancel();
                 }
