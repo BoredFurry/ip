@@ -39,6 +39,12 @@ public class UnmarkCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {
-        return tasks.unmark(this.position);
+        String message = tasks.unmark(position);
+        try {
+            storage.updateTaskStatus(position, tasks.getTask(position));
+        } catch (Exception e) {
+            return "There was an error trying to unmark your task master: " + e.getMessage();
+        }
+        return message;
     }
 }

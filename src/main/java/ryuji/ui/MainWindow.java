@@ -1,7 +1,5 @@
 package ryuji.ui;
 
-import ryuji.storage.Storage;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -29,6 +27,8 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;   // Text field for entering user input
     @FXML
     private Button sendButton;     // Button for sending user input
+
+    private Ui ui = new Ui();
 
     private Ryuji ryuji;  // Instance of the Ryuji chatbot to handle responses
 
@@ -81,10 +81,15 @@ public class MainWindow extends AnchorPane {
 
         // Exit the application if the user types "bye"
         if (input.equals("bye")) {
+            dialogContainer.getChildren().addAll(
+                    DialogBox.getRyujiDialog("here is your task list: " + ryuji.getFilePathForCurrentStorage()
+                            , ryujiImage)
+            );
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
+
                     System.exit(1);  // Exit after 5 seconds
                     timer.cancel();
                 }

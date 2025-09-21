@@ -94,6 +94,10 @@ public class Ryuji {
         }
     }
 
+    public String getFilePathForCurrentStorage() {
+        return storage.getFilePath();
+    }
+
     /**
      * Main method that launches the Ryuji chatbot application.
      * <p>This method is the entry point when running the application.

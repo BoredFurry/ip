@@ -41,6 +41,10 @@ public class TaskList {
         this.tasks = tasks;
     }
 
+    public Task getTask(int position) {
+        return tasks.get(position - 1);
+    }
+
     /**
      * Adds a valid task to the list. If the task is invalid, it will not be added
      * and an error message will be returned.

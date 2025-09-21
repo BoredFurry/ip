@@ -39,6 +39,12 @@ public class MarkCommand extends Command {
      */
     @Override
     public String execute(TaskList tasks, Ui ui, Storage storage) {
-        return tasks.mark(position);
+        String message = tasks.mark(position);
+        try {
+            storage.updateTaskStatus(position, tasks.getTask(position));
+        } catch (Exception e) {
+            return "There was an error trying to mark your task master: " + e.getMessage();
+        }
+        return message;
     }
 }

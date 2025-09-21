@@ -208,4 +208,60 @@ public class Storage {
             System.err.println("Could not rename temporary file");
         }
     }
+    
+    /**
+     * Updates the status of a specific task in a CSV file by replacing the line at the given position with
+     * the new task's information. The method reads the original CSV file, writes the updated task
+     * information to a temporary file, and then replaces the original file with the temporary one.
+     *
+     * @param position The line number (1-based index) of the task to be updated in the CSV file.
+     * @param task The task object containing the updated information to be written to the file.
+     *             The task is converted to a CSV row format using its {@link Task#toCsvRow} method.
+     * @throws IOException If an I/O error occurs during file reading, writing, or renaming operations.
+     *
+     * @see Task#toCsvRow()
+     */
+    public void updateTaskStatus(int position, Task task) throws IOException {
+        String taskString = task.toCsvRow();
+        String currentLine;
+        File originalFile = new File(filePath);
+
+        String pathTemp = makeFilePath("temp.csv");
+        File tempFile = new File(pathTemp);
+
+        tempFile.createNewFile();
+        BufferedReader reader = new BufferedReader(new FileReader(originalFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+        int currentPosition = 1;
+
+        while ((currentLine = reader.readLine()) != null) {
+            if (currentPosition == position) {
+                writeToFile(taskString, pathTemp);
+                currentPosition++;
+                continue;
+            }
+            writeToFile(currentLine, pathTemp);
+            currentPosition++;
+        }
+
+        reader.close();
+        writer.close();
+
+        if (!originalFile.delete()) {
+            System.err.println("Could not delete original file");
+            return;
+        }
+
+        if (!tempFile.renameTo(originalFile)) {
+            System.err.println("Could not rename temporary file");
+        }
+    }
+
+/**
+ * Returns the file path where the task data is stored.
+ * <p>This method is used to retrieve the absolute path of the file where tasks are persisted.</p>
+ */
+    public String getFilePath() {
+        return filePath;
+    }
 }
